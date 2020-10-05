@@ -8,7 +8,6 @@ import SignUp from './src/screens/Auth/SignUp';
 import store, { persistor } from "./src/store";
 import { authChangeListener } from "./src/utils/authChangeListener";
 import * as Permissions from 'expo-permissions'
-import * as Notificationss from 'expo-notifications';
 import { Notifications } from 'expo';
 import Constants from 'expo-constants';
 
@@ -83,7 +82,7 @@ export default function  App ()  {
         </PersistGate>
       </Provider>*/
       <View style={{marginTop:50}}>
-      <Button title='choose image' onPress={registerForPushNotificationsAsync}/>
+        <Button title='choose image' onPress={registerForPushNotificationsAsync}/>
       </View>
     )
 }
