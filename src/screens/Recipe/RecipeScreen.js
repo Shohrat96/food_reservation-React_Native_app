@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   FlatList,
   ScrollView,
@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Image,
   Dimensions,
-  TouchableHighlight
+  TouchableHighlight, Alert
 } from 'react-native';
 import styles from './styles';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
@@ -17,8 +17,70 @@ import ViewIngredientsButton from '../../components/ViewIngredientsButton/ViewIn
 import PlaceOrderButton from '../../components/PlaceOrderButton/PlaceOrder';
 import OrderFormModal from '../../components/orderFormModal/OrderFormModal';
 import App from '../../API/firebaseConfig';
+import * as Permissions from 'expo-permissions'
+import { Notifications } from 'expo';
+import Constants from 'expo-constants';
 
 const { width: viewportWidth } = Dimensions.get('window');
+
+async function sendPushNotification(expoPushToken,order) {
+  Alert.alert('sadas')
+  const {title, dateOnly, timeOnly, number, name, surname, countFood, countPerson}=order;
+  const messageTemplate=`
+    ***New Order Received***
+    Sifariş: ${title},
+    Tarix: ${dateOnly},
+    Zaman: ${timeOnly}
+  `
+  const message = {
+    to: expoPushToken,
+    sound: 'default',
+    title: 'Original Title',
+    body: messageTemplate,
+    data: { data: 'goes here' },
+  };
+
+  await fetch('https://exp.host/--/api/v2/push/send', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Accept-encoding': 'gzip, deflate',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(message),
+  });
+}
+
+
+const registerForPushNotificationsAsync = async (order) => {
+
+  if (Constants.isDevice) {
+    const { status: existingStatus } = await Permissions.getAsync(
+      Permissions.NOTIFICATIONS
+    );
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Permissions.askAsync(
+        Permissions.NOTIFICATIONS
+      );
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      alert('Failed to get push token for push notification!');
+      return;
+    }
+    let token = await Notifications.getExpoPushTokenAsync();
+    updates={};
+    updates['/expoToken']=token;
+    App.db.ref('users').child('6GX8plM7xQUdikbbIi3bpsGqDUI3').update(updates)
+    Alert.alert(JSON.stringify(token));
+    sendPushNotification(token, order)
+  } else {
+    alert('Must use physical device for Push Notifications');
+  }
+};
+
+
 
 export default class RecipeScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -44,6 +106,18 @@ export default class RecipeScreen extends React.Component {
     };
   }
 
+
+  listenHandler=(param)=>{
+    const {data}=param;
+    Alert.alert('data:',JSON.stringify(data));
+  }
+  componentDidMount(){
+    this.listener=Notifications.addListener(this.listenHandler)
+    this.subscription=Notifications.addNotificationResponseReceivedListener(this.listenHandler)
+  }
+  componentWillUnmount(){
+    this.listener && Notifications.removeListener(this.listenHandler)
+  }
   renderImage = ({ item }) => (
     <TouchableHighlight>
       <View style={styles.imageContainer}>
@@ -57,12 +131,13 @@ export default class RecipeScreen extends React.Component {
     let ingredient = item;
     this.props.navigation.navigate('Ingredient', { ingredient, name });
   };
-  orderSuccess=()=>{
+  orderSuccess=(order)=>{
     this.setState({
       ...this.state,
       orderSuccess:true,
       orderStart:false
-    })
+    });
+    registerForPushNotificationsAsync(order);
   };
   orderFailed=()=>{
     this.setState({
@@ -94,7 +169,10 @@ export default class RecipeScreen extends React.Component {
 
     const submitOrderHandler=(contactInfo)=>{
       App.db.ref(`orders/`).push({ orderedItem:item, contactInfo:contactInfo}).then(
-        ()=>this.orderSuccess(),
+        ()=>this.orderSuccess({
+          ...contactInfo,
+          ...item
+        }),
         ()=>this.orderFailed()
     );
       this.modalHide()

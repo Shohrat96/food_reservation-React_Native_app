@@ -14,30 +14,7 @@ import IngredientScreen from '../screens/Ingredient/IngredientScreen';
 import SearchScreen from '../screens/Search/SearchScreen';
 import IngredientsDetailsScreen from '../screens/IngredientsDetails/IngredientsDetailsScreen';
 
-/* const Stack = createStackNavigator();
 
-function MainNavigator() {
-  return(
-    <Stack.Navigator
-      screenOptions={{
-          headerTitleStyle: {
-            fontWeight: 'bold',
-            textAlign: 'center',
-            alignSelf: 'center',
-            flex: 1,
-          }
-      }}
-    >
-      <Stack.Screen name='Home' component={HomeScreen} />
-      <Stack.Screen name='Categories' component={CategoriesScreen}/>
-      <Stack.Screen name='Recipe' component={RecipeScreen}/>
-      <Stack.Screen name='RecipesList' component={RecipesListScreen} />
-      <Stack.Screen name='Ingredient' component={IngredientScreen} />
-      <Stack.Screen name='Search' component={SearchScreen} />
-      <Stack.Screen name='IngredientsDetails' component={IngredientsDetailsScreen} />
-    </Stack.Navigator>
-  )
-} */
 
 const MainNavigator = createStackNavigator(
   {
@@ -63,22 +40,7 @@ const MainNavigator = createStackNavigator(
   }
 ); 
 
-/* const Drawer = createDrawerNavigator();
 
-function DrawerStack() {
-  return(
-    <Drawer.Navigator
-      drawerPosition='left'
-      initialRouteName='Main'
-      drawerStyle={{
-        width: 250
-      }}
-      drawerContent={props=> DrawerContainer}
-    >
-      <Drawer.Screen name='Main' component={MainNavigator} />
-    </Drawer.Navigator>
-  )
-} */
 
 const DrawerStack = createDrawerNavigator(
   {
