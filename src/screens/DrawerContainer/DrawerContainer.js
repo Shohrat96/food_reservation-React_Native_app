@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import styles from './styles';
 import MenuButton from '../../components/MenuButton/MenuButton';
 
+
+
 export default class DrawerContainer extends React.Component {
   render() {
     const { navigation } = this.props;
@@ -31,6 +33,14 @@ export default class DrawerContainer extends React.Component {
             source={require('../../../assets/icons/search.png')}
             onPress={() => {
               navigation.navigate('Search');
+              navigation.closeDrawer();
+            }}
+          />
+          <MenuButton
+            title="ORDERS"
+            source={require('../../../assets/icons/search.png')}
+            onPress={() => {
+              navigation.navigate('Orders');
               navigation.closeDrawer();
             }}
           />

@@ -13,6 +13,9 @@ import DrawerContainer from '../screens/DrawerContainer/DrawerContainer';
 import IngredientScreen from '../screens/Ingredient/IngredientScreen';
 import SearchScreen from '../screens/Search/SearchScreen';
 import IngredientsDetailsScreen from '../screens/IngredientsDetails/IngredientsDetailsScreen';
+import OrdersScreen from '../screens/Orders/OrdersScreen';
+import SingleOrder from '../screens/SingleOrder/SingleOrder';
+import OrderDetailsScreen from '../screens/OrderDetailsScreen/OrderDetailsScreen';
 
 
 
@@ -24,7 +27,10 @@ const MainNavigator = createStackNavigator(
     RecipesList: RecipesListScreen,
     Ingredient: IngredientScreen,
     Search: SearchScreen,
-    IngredientsDetails: IngredientsDetailsScreen
+    IngredientsDetails: IngredientsDetailsScreen,
+    Orders:OrdersScreen,
+    SingleOrder:SingleOrder,
+    OrderDetails:OrderDetailsScreen
   },
   {
     initialRouteName: 'Home',
@@ -54,13 +60,7 @@ const DrawerStack = createDrawerNavigator(
   }
 );
 
-/* export default function AppContainer() {
-  return(
-    <NavigationContainer>
-      <DrawerStack/>
-    </NavigationContainer>
-  )
-} */
+
  
 export const AppContainer = createAppContainer(DrawerStack);
 

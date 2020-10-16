@@ -11,7 +11,7 @@ import { authChangeListener } from "../utils/authChangeListener";
 // Import reducers
 
 import { MODULE_NAME as authModuleName, reducer as authReducer } from "./Auth";
-import {MODULE_NAME as shopModuleName, reducer as shopReducer} from './shop';
+import {MODULE_NAME as shopModuleName, reducer as shopReducer} from './shop/categories';
 const rootReducer = combineReducers({
   [authModuleName]: authReducer,
   [shopModuleName]:shopReducer

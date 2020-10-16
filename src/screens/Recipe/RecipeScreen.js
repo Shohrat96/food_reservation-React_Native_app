@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Image,
   Dimensions,
-  TouchableHighlight, Alert
+  TouchableHighlight, Alert, Vibration, Platform
 } from 'react-native';
 import styles from './styles';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
@@ -16,15 +16,17 @@ import BackButton from '../../components/BackButton/BackButton';
 import ViewIngredientsButton from '../../components/ViewIngredientsButton/ViewIngredientsButton';
 import PlaceOrderButton from '../../components/PlaceOrderButton/PlaceOrder';
 import OrderFormModal from '../../components/orderFormModal/OrderFormModal';
+import IngredientsDetailsScreen from '../IngredientsDetails/IngredientsDetailsScreen';
+
 import App from '../../API/firebaseConfig';
 import * as Permissions from 'expo-permissions'
 import { Notifications } from 'expo';
 import Constants from 'expo-constants';
+//import Notifications from 'expo-notifications'
 
 const { width: viewportWidth } = Dimensions.get('window');
 
 async function sendPushNotification(expoPushToken,order) {
-  Alert.alert('sadas')
   const {title, dateOnly, timeOnly, number, name, surname, countFood, countPerson}=order;
   const messageTemplate=`
     ***New Order Received***
@@ -37,7 +39,7 @@ async function sendPushNotification(expoPushToken,order) {
     sound: 'default',
     title: 'Original Title',
     body: messageTemplate,
-    data: { data: 'goes here' },
+    data: {message:messageTemplate},
   };
 
   await fetch('https://exp.host/--/api/v2/push/send', {
@@ -73,10 +75,17 @@ const registerForPushNotificationsAsync = async (order) => {
     updates={};
     updates['/expoToken']=token;
     App.db.ref('users').child('6GX8plM7xQUdikbbIi3bpsGqDUI3').update(updates)
-    Alert.alert(JSON.stringify(token));
     sendPushNotification(token, order)
   } else {
     alert('Must use physical device for Push Notifications');
+  }
+  if (Platform.OS === 'android') {
+    Notifications.createChannelAndroidAsync('default', {
+      name: 'default',
+      sound: 'true',
+      priority: 'max',
+      vibrate: [0, 250, 250, 250],
+    });
   }
 };
 
@@ -102,22 +111,20 @@ export default class RecipeScreen extends React.Component {
       activeSlide: 0,
       orderSuccess:null,
       orderStart:false,
-      orderModalShow:false
+      orderModalShow:false,
+      notification:null
     };
   }
 
-
-  listenHandler=(param)=>{
-    const {data}=param;
-    Alert.alert('data:',JSON.stringify(data));
+  listenHandler=(notification)=>{
+    this.setState({notification:notification})
   }
   componentDidMount(){
     this.listener=Notifications.addListener(this.listenHandler)
-    this.subscription=Notifications.addNotificationResponseReceivedListener(this.listenHandler)
   }
-  componentWillUnmount(){
-    this.listener && Notifications.removeListener(this.listenHandler)
-  }
+  /*componentWillUnmount(){
+
+  }*/
   renderImage = ({ item }) => (
     <TouchableHighlight>
       <View style={styles.imageContainer}>
@@ -179,9 +186,19 @@ export default class RecipeScreen extends React.Component {
     }
     return (
       <>
+        {
+          this.state.notification?.origin==='selected'? (
+            <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
+              <Text>
+                {JSON.stringify(this.state.notification.data)}
+              </Text>
+            </View>
+          ):
+          <>
       {
         this.state.orderModalShow?<OrderFormModal clickToClose={this.modalHide} submitOrderHandler={submitOrderHandler} />:null
       }
+      
       <ScrollView style={styles.container}>
         <View style={styles.carouselContainer}>
           <View style={styles.carousel}>
@@ -248,7 +265,8 @@ export default class RecipeScreen extends React.Component {
         </View>
       </ScrollView>
       </>
-      
+        }
+      </>
     );
   }
 }
