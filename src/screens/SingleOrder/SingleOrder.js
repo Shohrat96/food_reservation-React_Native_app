@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {Text, View, TouchableOpacity, Alert} from 'react-native';
 import styles from './styles'
 
 const SingleOrder=(props)=>{
+    console.log('item in single oredr,',props.item)
+    const {contactInfo, orderedItem}=props.item;
+    
+
     return (
         <TouchableOpacity style={styles.container} onPress={props.onPress}>
             <View>
@@ -11,7 +15,7 @@ const SingleOrder=(props)=>{
                         Sifariş 
                     </Text>
                     <Text>
-                        {props.item.orderItem.title}
+                        {orderedItem.title}
                     </Text>
                 </View>
 
@@ -20,16 +24,16 @@ const SingleOrder=(props)=>{
                         Tarix 
                     </Text>
                     <Text>
-                        {props.item.contactInfo.date}
+                        {contactInfo.date}
                     </Text>
                 </View>
 
                 <View style={{flexDirection:'row', justifyContent:'space-between'}}> 
                     <Text style={{fontWeight:'bold'}}>
-                        Zaman 
+                        Zaman
                     </Text>
                     <Text>
-                        {props.item.contactInfo.time}
+                        {contactInfo.time}
                     </Text>
                 </View>
             </View>

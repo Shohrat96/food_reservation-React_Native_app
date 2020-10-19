@@ -18,6 +18,7 @@ const initialState = {
   status: false,
   userID: null,
   username: null,
+  isAdmin:false
   /*photo: null,*/
 };
 
@@ -62,13 +63,13 @@ export const setAuthLogout = () => ({
 });
 
 // MIDDLEWARES
-export const sign = (email, password, username, isSignIn) => async (
+export const sign = (email, password, username, isSignIn=false) => async (
   dispatch
 ) => {
     console.log('inside sign method');
   try {
     
-    if (isSignIn) {
+    if (isSignIn) { Alert.alert('is sign in')
       ({
         user: { uid },
       } = await App.auth.signInWithEmailAndPassword(email, password));
@@ -77,8 +78,11 @@ export const sign = (email, password, username, isSignIn) => async (
     } else {
         try {
             console.log('inside signup, email and pass: ',email,password);
-            const {user} = await App.auth.createUserWithEmailAndPassword(email, password);
-            const {uid}=await user;
+            ({
+              user: { uid },
+            } = await App.auth.createUserWithEmailAndPassword(email, password));
+            //const {user} = await App.auth.createUserWithEmailAndPassword(email, password);
+            
             App.db.ref(`users/${uid}`).set({ username /*, photo: "" */});
         } catch (error) {
             console.log('catch error:',error);

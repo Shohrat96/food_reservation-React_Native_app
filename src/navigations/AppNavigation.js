@@ -16,6 +16,7 @@ import IngredientsDetailsScreen from '../screens/IngredientsDetails/IngredientsD
 import OrdersScreen from '../screens/Orders/OrdersScreen';
 import SingleOrder from '../screens/SingleOrder/SingleOrder';
 import OrderDetailsScreen from '../screens/OrderDetailsScreen/OrderDetailsScreen';
+import RegisterScreen from '../screens/Auth/RegisterScreen'
 
 
 
@@ -30,7 +31,8 @@ const MainNavigator = createStackNavigator(
     IngredientsDetails: IngredientsDetailsScreen,
     Orders:OrdersScreen,
     SingleOrder:SingleOrder,
-    OrderDetails:OrderDetailsScreen
+    OrderDetails:OrderDetailsScreen,
+    Register:RegisterScreen
   },
   {
     initialRouteName: 'Home',

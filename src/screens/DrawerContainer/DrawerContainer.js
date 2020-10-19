@@ -7,6 +7,12 @@ import MenuButton from '../../components/MenuButton/MenuButton';
 
 
 export default class DrawerContainer extends React.Component {
+  constructor(props){
+    super(props);
+    this.state={
+      flag:true
+    }
+  }
   render() {
     const { navigation } = this.props;
     return (
@@ -44,6 +50,25 @@ export default class DrawerContainer extends React.Component {
               navigation.closeDrawer();
             }}
           />
+          <MenuButton
+            title="REGISTER"
+            source={require('../../../assets/icons/search.png')}
+            onPress={() => {
+              navigation.navigate('Register');
+              navigation.closeDrawer();
+            }}
+          />
+          {
+            this.state.flag?
+            <MenuButton
+            title="EDIT CONTENT"
+            source={require('../../../assets/icons/search.png')}
+            onPress={() => {
+              navigation.navigate('Register');
+              navigation.closeDrawer();
+            }}
+          />:null
+          }
         </View>
       </View>
     );

@@ -1,12 +1,22 @@
 import React from 'react';
-import { FlatList, ScrollView, Text, View, TouchableHighlight, Image } from 'react-native';
+import { FlatList, ScrollView, Text, View, TouchableHighlight, Image, Alert } from 'react-native';
 import styles from './styles';
 import { recipes } from '../../data/dataArrays';
 import MenuImage from '../../components/MenuImage/MenuImage';
 import DrawerActions from 'react-navigation';
 import { getCategoryName } from '../../data/MockDataAPI';
+import { connect } from 'react-redux';
+import { setData } from '../../store/shop/products';
 
-export default class HomeScreen extends React.Component {
+
+const mapStateToProps=(state)=>{
+  return {
+    productsKeyInHome:state.products
+  }
+}
+
+export default connect(mapStateToProps, {setData})(class HomeScreen extends React.Component {
+  
   static navigationOptions = ({ navigation }) => ({
     title: 'Home',
     headerRight: (
@@ -20,6 +30,25 @@ export default class HomeScreen extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state={data:null}
+  }
+  convertObToArr=(obj)=>{
+    let resultArr=[]
+    Object.keys(obj).map(key=>{
+      resultArr=[...resultArr,obj[key]]
+    })
+    return resultArr
+  }
+  componentDidMount(){
+    // fetch('https://restaurant-reservation-33a36.firebaseio.com/products.json',
+    // {
+    //   method: 'GET',
+    //   headers:{
+    //     Accept: 'application/json',
+    //     'Content-Type':'application/json'
+    //   }
+    // }).then(resp=>resp.json()).then(data=>{this.setState({data:data});console.log(this.state.data)})
+    this.props.setData()
   }
 
   onPressRecipe = item => {
@@ -37,17 +66,18 @@ export default class HomeScreen extends React.Component {
   );
 
   render() {
+    console.log('props in home: ',this.props)
     return (
       <View>
         <FlatList
           vertical
-          showsVerticalScrollIndicator={false}
+          showsVerticalScrollIndicator={true}
           numColumns={2}
-          data={recipes}
+          data={this.convertObToArr(this.props.productsKeyInHome)}
           renderItem={this.renderRecipes}
           keyExtractor={item => `${item.recipeId}`}
         />
       </View>
     );
   }
-}
+})

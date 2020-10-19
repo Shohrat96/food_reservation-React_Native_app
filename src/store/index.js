@@ -6,15 +6,17 @@ import { persistStore, persistReducer } from "redux-persist";
 import { authChangeListener } from "../utils/authChangeListener";
 
 
-
-
 // Import reducers
 
 import { MODULE_NAME as authModuleName, reducer as authReducer } from "./Auth";
-import {MODULE_NAME as shopModuleName, reducer as shopReducer} from './shop/categories';
+import {MODULE_NAME as productModuleName} from './shop/products';
+import productsReducer from './shop/products';
+import ordersReducer, {MODULE_NAME as ordersModuleName} from './shop/orders'
+
 const rootReducer = combineReducers({
   [authModuleName]: authReducer,
-  [shopModuleName]:shopReducer
+  [productModuleName]:productsReducer,
+  [ordersModuleName]:ordersReducer
 });
 // Setup persist store
 const persistConfig = {
@@ -34,3 +36,4 @@ export const persistor = persistStore(store);
 // authChangeListener(store);
 
 export default store;
+

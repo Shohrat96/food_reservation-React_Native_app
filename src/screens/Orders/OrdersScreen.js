@@ -6,6 +6,8 @@ import MenuImage from '../../components/MenuImage/MenuImage';
 import DrawerActions from 'react-navigation';
 import { getCategoryName } from '../../data/MockDataAPI';
 import SingleOrder from '../SingleOrder/SingleOrder';
+import { connect } from 'react-redux';
+import { setOrders } from '../../store/shop/orders';
 
 
 const orders=[
@@ -58,7 +60,11 @@ const orders=[
   }
 ]
 
-export default class OrdersScreen extends React.Component {
+const mapStateToProps=(state)=>({
+  orders:state.orders
+})
+
+export default connect(mapStateToProps,{setOrders}) (class OrdersScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     title: 'Orders',
     headerRight: (
@@ -72,6 +78,39 @@ export default class OrdersScreen extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state={
+      data:null
+    }
+    this.convertObjToArr=this.convertObjToArr.bind(this)
+  }
+  
+  convertObjToArr(inputObj){
+    const keysArray=Object.keys(inputObj);
+    const valuesArray=Object.values(inputObj);
+    let resultArr=[]
+    for (let i=0;i<keysArray.length;i++){
+      const curObj={}
+      curObj[keysArray[i]]=valuesArray[i];
+      resultArr.push(curObj)
+    }
+    return resultArr
+  }
+  
+  componentDidMount(){
+    // fetch('https://restaurant-reservation-33a36.firebaseio.com/orders.json',
+    // {
+    //   method: 'GET',
+    //   headers:{
+    //     Accept: 'application/json',
+    //     'Content-Type':'application/json'
+    //   }
+    // }).then(resp=>resp.json()).then(result=>{
+    //   this.setState({data:this.convertObjToArr(result)});
+      
+    //   console.log('state inside fetch : ',this.state.data)
+    // })
+
+    this.props.setOrders()
   }
 
   onPressOrder = item => {
@@ -81,21 +120,28 @@ export default class OrdersScreen extends React.Component {
   renderOrders = ({ item }) => (
     <SingleOrder onPress={()=>this.onPressOrder(item)} item={item}/>
   );
-
+  convertObToArr=(obj)=>{
+    let resultArr=[]
+    Object.keys(obj).map(key=>{
+      resultArr=[...resultArr,obj[key]]
+    })
+    return resultArr
+  };
   render() {
+    console.log('props in ordersscreen:',this.props.orders)
     return (
       <>
       <View style={styles.container}>
         <FlatList
           vertical
           showsVerticalScrollIndicator={false}
-          data={orders}
+          data={this.convertObToArr(this.props.orders)}
           renderItem={this.renderOrders}
-          keyExtractor={item => `${item.recipeId}`}
+          keyExtractor={item => Object.keys(item)[0]}
         />
       </View>
       </>
 
     );
   }
-}
+})

@@ -213,10 +213,10 @@ export default class RecipeScreen extends React.Component {
               inactiveSlideScale={1}
               inactiveSlideOpacity={1}
               firstItem={0}
-              loop={false}
-              autoplay={false}
+              loop={true}
+              autoplay={true}
               autoplayDelay={500}
-              autoplayInterval={3000}
+              autoplayInterval={2000}
               onSnapToItem={index => this.setState({ activeSlide: index })}
             />
             <Pagination
@@ -249,13 +249,13 @@ export default class RecipeScreen extends React.Component {
           </View>
 
           <View style={styles.infoContainer}>
-            <ViewIngredientsButton
+            {/* <ViewIngredientsButton
               onPress={() => {
                 let ingredients = item.ingredients;
                 let title = 'Ingredients for ' + item.title;
                 navigation.navigate('IngredientsDetails', { ingredients, title });
               }}
-            />
+            /> */}
             <PlaceOrderButton orderStart={this.orderStart}/>
             
           </View>

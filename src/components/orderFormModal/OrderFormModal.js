@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableWithoutFeedback, TouchableOpacity, Button, Alert, Platform} from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
+//import DateTimePicker from '@react-native-community/datetimepicker';
 
 
 
 import CustomeTextInput from '../TextInput/CustomTextInput';
 import styles from './styles'
-import RNDateTimePicker from '@react-native-community/datetimepicker';
+//import RNDateTimePicker from '@react-native-community/datetimepicker';
 
 
 const OrderFormModal=(props)=>{
@@ -87,7 +87,7 @@ const OrderFormModal=(props)=>{
                                         </View>
                                         <Text>{fields.timeOnly}</Text>
                                     </TouchableOpacity>
-                                    {
+                                    {/*
                                         showDatePicker && (
                                             <DateTimePicker
                                             testID="dateTimePicker"
@@ -98,7 +98,7 @@ const OrderFormModal=(props)=>{
                                             onChange={currentMood==='date'?onChangeDate:onChangeTime}
                                         /> 
                                         )
-                                    }
+                                        */}
                             </View>
 
                         </View>

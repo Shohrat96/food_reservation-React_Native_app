@@ -4,7 +4,7 @@ import styles from './styles'
 
 
 const OrderDetailsScreen=(props)=>{
-    const {contactInfo, orderItem}=props.navigation.state.params.item
+    const {contactInfo, orderedItem}=props.navigation.state.params.item;
     return (
         <View style={styles.container}>
             <View style={styles.orderDetailSection}>
@@ -13,7 +13,7 @@ const OrderDetailsScreen=(props)=>{
                             Sifariş 
                         </Text>
                         <Text style={styles.orderFieldValue}>
-                            {orderItem.title}
+                            {orderedItem.title}
                         </Text>
                 </View>
                 <View style={styles.orderDetailWrapper}> 

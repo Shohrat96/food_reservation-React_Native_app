@@ -3,8 +3,7 @@ import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
 import App from '../../API/firebaseConfig';
 import { sign } from '../../store/Auth';
 import { connect } from "react-redux";
-import { authChangeListener } from "../../utils/authChangeListener";
-import { createRestaurant } from '../../store/shop';
+//import { authChangeListener } from "../../utils/authChangeListener";
 
 
 /*import * as firebase from 'firebase';
@@ -25,12 +24,11 @@ if (!firebase.apps.length) {
 
 function mapStateToProps(state){
   return {
-    shop:state.shop,
     auth:state.auth
   }
 }
 
-const SignUp= connect(mapStateToProps, {sign}) ((props)=>{
+const RegisterScreen= connect(mapStateToProps, {sign}) ((props)=>{
     const {sign}=props;
     console.log('props in shop: ',props);
     const [credentials,setCredentials]=useState({
@@ -50,9 +48,7 @@ const SignUp= connect(mapStateToProps, {sign}) ((props)=>{
         }
     
       }
-      const createRestHandler=()=>{
-        createRestaurant('testREST','testLocation');
-      }
+      
       return (
          <View style={styles.container}>
            <Text>email</Text>
@@ -71,7 +67,6 @@ const SignUp= connect(mapStateToProps, {sign}) ((props)=>{
            })}}/>
            <View style={{paddingTop:10}}>
             <Button style={{marginTop:20}} title='SignUp' onPress={()=>signUpHandler(credentials)} />
-            <Button style={{marginTop:20}} title='CreateRestaurant' onPress={createRestHandler} />
            </View>
          </View>
       );
@@ -86,6 +81,6 @@ const styles=StyleSheet.create({
         alignItems:'center'
     }
 })
-export default SignUp
+export default RegisterScreen
 
   

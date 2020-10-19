@@ -1,7 +1,18 @@
 import { Alert } from "react-native";
 import App from "../../API/firebaseConfig";
 
-const initialState={
+
+
+
+
+// SELECTORS
+export const MODULE_NAME = "orders";
+export const selectCategories = (state) => state[MODULE_NAME];
+// ACTION TYPES
+const SET_ORDERS='SET_ORDERS'
+
+const initialState=[
+  {
     '-MJg44k-rL4tEYlmQ3pf': {
       contactInfo: {
         countFood: '2',
@@ -29,14 +40,46 @@ const initialState={
           ]
         ],
         photo_url: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/delish-how-to-make-a-smoothie-horizontal-1542310071.png?crop=0.803xw:0.923xh;0.116xw,0.00510xh&resize=768:*',
-        photosArray: [
-          'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/delish-how-to-make-a-smoothie-horizontal-1542310071.png?crop=0.803xw:0.923xh;0.116xw,0.00510xh&resize=768:*',
-          'https://www.vitamix.com/media/other/images/xVitamix-Triple-Berry-Smoothie-square-crop__1.jpg.pagespeed.ic.OgTC3ILD3R.jpg',
-          'http://images.media-allrecipes.com/userphotos/960x960/3798204.jpg',
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrzui8MM6W66I29VZwVvcjpGv99JW3O1owgupc3KwB65rhAyrZ'
-        ],
+        recipeId:3,
         time: '10',
         title: 'Triple Berry Smoothie'
       }
     }
   }
+    
+]
+
+  function reducer(state = initialState, { type, payload }) {
+    switch (type) {
+        case SET_ORDERS:
+            console.log('payload',payload)
+            return payload
+        default:
+          return state
+    }
+  }
+
+  export default reducer
+
+    //action creators
+    export const setOrders = () => async (
+      dispatch
+    ) => {
+        console.log('inside setData method');
+      try {
+        fetch('https://restaurant-reservation-33a36.firebaseio.com/orders.json',
+        {
+          method: 'GET',
+          headers:{
+            Accept: 'application/json',
+            'Content-Type':'application/json'
+          }
+        }).then(resp=>resp.json()).then(data=>{
+        
+          dispatch({type:'SET_ORDERS',payload:data});
+        })
+        
+      } catch (error) {
+        Alert.alert(error.message);
+      }
+    };
