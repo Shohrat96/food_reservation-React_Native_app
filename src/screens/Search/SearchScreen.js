@@ -75,9 +75,9 @@ export default class SearchScreen extends React.Component {
   handleSearch = text => {
     var recipeArray1 = getRecipesByRecipeName(text);
     var recipeArray2 = getRecipesByCategoryName(text);
-    var recipeArray3 = getRecipesByIngredientName(text);
-    var aux = recipeArray1.concat(recipeArray2);
-    var recipeArray = [...new Set(aux)];
+    //var recipeArray3 = getRecipesByIngredientName(text);
+    var aux = recipeArray1.concat(recipeArray1);
+    var recipeArray =recipeArray1 //[...new Set(aux)];
     if (text == '') {
       this.setState({
         value: text,

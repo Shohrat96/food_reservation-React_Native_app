@@ -1,5 +1,6 @@
 import { Alert } from "react-native";
 import App from "../../API/firebaseConfig";
+import { convertObToArr } from "../../data/MockDataAPI";
 
 // ACTION TYPES
 const SET_PRODUCTS='SET_PRODUCTS'
@@ -64,7 +65,7 @@ const initialState=[
           'Content-Type':'application/json'
         }
       }).then(resp=>resp.json()).then(data=>{
-        dispatch({type:'SET_PRODUCTS',payload:data});
+        dispatch({type:'SET_PRODUCTS',payload: data});
       })
       
     } catch (error) {

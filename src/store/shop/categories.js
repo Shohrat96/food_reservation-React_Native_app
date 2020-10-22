@@ -2,7 +2,7 @@ import { Alert } from "react-native";
 import App from "../../API/firebaseConfig";
 
 // ACTION TYPES
-
+const SET_CATEGORIES='SET_CATEGORIES'
 
 // SELECTORS
 export const MODULE_NAME = "categories";
@@ -11,7 +11,6 @@ export const selectCategories = (state) => state[MODULE_NAME];
 
 // REDUCER
 const initialState = {
-    name:'',
     categories:[
         {
             id: 3,
@@ -44,53 +43,35 @@ const initialState = {
     ]
 };
 
-export function reducer(state = initialState, { type, payload }) {
+function reducer(state = initialState, { type, payload }) {
   switch (type) {
-    case CREATE_CATEGORY:
-      return {
-        ...state,
-        name: payload.name,
-        location:payload.location
-      };
-    default:
-      return state;
+      case SET_CATEGORIES:
+          return payload
+      default:
+        return state
   }
 }
 
-// ACTION CREATORS
-export const createRestaurantAction = (payload) => ({
-  type: CREATE_RESTAURANT,
-  payload,
-});
+export default reducer
 
-
-// MIDDLEWARES
-export const createRestaurant = (name,location) => async (
+//action creators
+export const setCategories = () => async (
   dispatch
 ) => {
+    console.log('inside set action');
   try {
-        try {
-            const {user} = await App.auth.createUserWithEmailAndPassword(email, password);
-            const {uid}=await user;
-            App.db.ref(`users/${uid}`).set({ 
-                username, /*, photo: "" */
-                restaurant:{
-                    name:name,
-                    location:location
-                }
-            });
-        } catch (error) {
-            console.log('catch error:',error);
-        }
-
-    dispatch(
-        createRestaurantAction({
-        name: name,
-        location:location,
-        uid:uid
-        /*photo,*/
-      })
-    );
+    fetch('https://restaurant-reservation-33a36.firebaseio.com/categories.json',
+    {
+      method: 'GET',
+      headers:{
+        Accept: 'application/json',
+        'Content-Type':'application/json'
+      }
+    }).then(resp=>resp.json()).then(data=>{
+      console.log('data from set catego:',data)
+      dispatch({type:'SET_CATEGORIES',payload:data});
+    })
+    
   } catch (error) {
     Alert.alert(error.message);
   }

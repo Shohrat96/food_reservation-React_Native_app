@@ -64,7 +64,7 @@ export default class DrawerContainer extends React.Component {
             title="EDIT CONTENT"
             source={require('../../../assets/icons/search.png')}
             onPress={() => {
-              navigation.navigate('Register');
+              navigation.navigate('Edit');
               navigation.closeDrawer();
             }}
           />:null

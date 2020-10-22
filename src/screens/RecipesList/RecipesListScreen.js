@@ -7,7 +7,7 @@ import {
   Image
 } from 'react-native';
 import styles from './styles';
-import { getRecipes, getCategoryName } from '../../data/MockDataAPI';
+import { getProducts, getCategoryName } from '../../data/MockDataAPI';
 
 export default class RecipesListScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -21,6 +21,7 @@ export default class RecipesListScreen extends React.Component {
   }
 
   onPressRecipe = item => {
+    console.log('item in onpress recipe: ',item)
     this.props.navigation.navigate('Recipe', { item });
   };
 
@@ -37,7 +38,8 @@ export default class RecipesListScreen extends React.Component {
   render() {
     const { navigation } = this.props;
     const item = navigation.getParam('category');
-    const recipesArray = getRecipes(item.id);
+    const recipesArray = getProducts(item.id);
+    
     return (
       <View>
         <FlatList

@@ -65,7 +65,7 @@ const initialState=[
     export const setOrders = () => async (
       dispatch
     ) => {
-        console.log('inside setData method');
+        console.log('inside setOrder method');
       try {
         fetch('https://restaurant-reservation-33a36.firebaseio.com/orders.json',
         {

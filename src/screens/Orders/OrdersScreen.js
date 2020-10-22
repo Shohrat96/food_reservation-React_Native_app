@@ -81,7 +81,6 @@ export default connect(mapStateToProps,{setOrders}) (class OrdersScreen extends 
     this.state={
       data:null
     }
-    this.convertObjToArr=this.convertObjToArr.bind(this)
   }
   
   convertObjToArr(inputObj){
@@ -128,14 +127,14 @@ export default connect(mapStateToProps,{setOrders}) (class OrdersScreen extends 
     return resultArr
   };
   render() {
-    console.log('props in ordersscreen:',this.props.orders)
+    console.log('props in ordersscreen:',this.convertObToArr(this.props.orders))
     return (
       <>
       <View style={styles.container}>
         <FlatList
           vertical
           showsVerticalScrollIndicator={false}
-          data={this.convertObToArr(this.props.orders)}
+          data={this.convertObToArr(this.props.orders).reverse()}
           renderItem={this.renderOrders}
           keyExtractor={item => Object.keys(item)[0]}
         />

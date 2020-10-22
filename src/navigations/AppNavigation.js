@@ -17,6 +17,8 @@ import OrdersScreen from '../screens/Orders/OrdersScreen';
 import SingleOrder from '../screens/SingleOrder/SingleOrder';
 import OrderDetailsScreen from '../screens/OrderDetailsScreen/OrderDetailsScreen';
 import RegisterScreen from '../screens/Auth/RegisterScreen'
+import EditScreen from '../screens/Edit/EditScreen/EditScreen';
+import SingleProductEditScreen from '../screens/singleProductEdit/SingleProductEditScreen';
 
 
 
@@ -32,16 +34,19 @@ const MainNavigator = createStackNavigator(
     Orders:OrdersScreen,
     SingleOrder:SingleOrder,
     OrderDetails:OrderDetailsScreen,
-    Register:RegisterScreen
+    Register:RegisterScreen,
+    Edit:EditScreen,
+    SingleProductEdit:SingleProductEditScreen
   },
   {
     initialRouteName: 'Home',
-    // headerMode: 'float',
+    //headerMode: 'float',
+    
     defaulfNavigationOptions: ({ navigation }) => ({
+      
       headerTitleStyle: {
         fontWeight: 'bold',
         textAlign: 'center',
-        alignSelf: 'center',
         flex: 1,
       }
     })

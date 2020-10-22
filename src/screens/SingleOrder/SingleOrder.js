@@ -6,7 +6,7 @@ const SingleOrder=(props)=>{
     console.log('item in single oredr,',props.item)
     const {contactInfo, orderedItem}=props.item;
     
-
+    
     return (
         <TouchableOpacity style={styles.container} onPress={props.onPress}>
             <View>
@@ -15,7 +15,7 @@ const SingleOrder=(props)=>{
                         Sifariş 
                     </Text>
                     <Text>
-                        {orderedItem.title}
+                        {orderedItem?.title}
                     </Text>
                 </View>
 
@@ -24,7 +24,7 @@ const SingleOrder=(props)=>{
                         Tarix 
                     </Text>
                     <Text>
-                        {contactInfo.date}
+                        {contactInfo?.dateOnly}
                     </Text>
                 </View>
 
@@ -33,7 +33,7 @@ const SingleOrder=(props)=>{
                         Zaman
                     </Text>
                     <Text>
-                        {contactInfo.time}
+                        {contactInfo?.timeOnly}
                     </Text>
                 </View>
             </View>

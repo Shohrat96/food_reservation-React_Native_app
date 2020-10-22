@@ -5,6 +5,8 @@ import styles from './styles'
 
 const OrderDetailsScreen=(props)=>{
     const {contactInfo, orderedItem}=props.navigation.state.params.item;
+    console.log('props in props in orderdetails: ',props.navigation.state.params.item);
+
     return (
         <View style={styles.container}>
             <View style={styles.orderDetailSection}>
@@ -21,7 +23,7 @@ const OrderDetailsScreen=(props)=>{
                             Tarix 
                         </Text>
                         <Text style={styles.orderFieldValue}>
-                            {contactInfo.date}
+                            {contactInfo.dateOnly}
                         </Text>
                 </View>
                 <View style={styles.orderDetailWrapper}> 
@@ -29,7 +31,7 @@ const OrderDetailsScreen=(props)=>{
                             Zaman 
                         </Text>
                         <Text style={styles.orderFieldValue}>
-                            {contactInfo.time}
+                            {contactInfo.timeOnly}
                         </Text>
                 </View>
 

@@ -11,12 +11,14 @@ import { authChangeListener } from "../utils/authChangeListener";
 import { MODULE_NAME as authModuleName, reducer as authReducer } from "./Auth";
 import {MODULE_NAME as productModuleName} from './shop/products';
 import productsReducer from './shop/products';
-import ordersReducer, {MODULE_NAME as ordersModuleName} from './shop/orders'
+import ordersReducer, {MODULE_NAME as ordersModuleName} from './shop/orders';
+import categoriesReducer, {MODULE_NAME as categoriesModuleName} from './shop/categories';
 
 const rootReducer = combineReducers({
   [authModuleName]: authReducer,
   [productModuleName]:productsReducer,
-  [ordersModuleName]:ordersReducer
+  [ordersModuleName]:ordersReducer,
+  [categoriesModuleName]:categoriesReducer
 });
 // Setup persist store
 const persistConfig = {
