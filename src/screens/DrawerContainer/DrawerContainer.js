@@ -44,7 +44,7 @@ export default class DrawerContainer extends React.Component {
           />
           <MenuButton
             title="ORDERS"
-            source={require('../../../assets/icons/search.png')}
+            source={require('../../../assets/icons/order.png')}
             onPress={() => {
               navigation.navigate('Orders');
               navigation.closeDrawer();
@@ -52,7 +52,7 @@ export default class DrawerContainer extends React.Component {
           />
           <MenuButton
             title="REGISTER"
-            source={require('../../../assets/icons/search.png')}
+            source={require('../../../assets/icons/register.png')}
             onPress={() => {
               navigation.navigate('Register');
               navigation.closeDrawer();
@@ -62,7 +62,7 @@ export default class DrawerContainer extends React.Component {
             this.state.flag?
             <MenuButton
             title="EDIT CONTENT"
-            source={require('../../../assets/icons/search.png')}
+            source={require('../../../assets/icons/edit.png')}
             onPress={() => {
               navigation.navigate('Edit');
               navigation.closeDrawer();

@@ -1,23 +1,34 @@
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import {View, Text, Image, Button,TouchableHighlight,FlatList, ScrollView} from 'react-native';
 import { connect } from 'react-redux';
 import { convertObToArr, getCategoryName } from '../../../data/MockDataAPI';
 import styles from './styles';
+import BackButton from '../../../components/BackButton/BackButton';
 
 
 const mapStateToProps=(state)=>({
     productsKeyInEdit:state.products
 })
 const EditScreen = connect(mapStateToProps)((props)=>{
-    console.log('props in Edit page: ',convertObToArr(props.productsKeyInEdit));
-
+    console.log('props in Edit page: ',props);
+    const {navigation}=props;
     const productEditHandler=(product)=>{
-      props.navigation.navigate('SingleProductEdit', { product });
+      props.navigation.navigate('EditScreenSingle', { product });
     };
-
-    const createNewProduct=()=>{
     
-    }
+
+    useLayoutEffect(()=>{
+      navigation.setOptions({
+          headerLeft:()=>{
+              return (
+                  <>
+                      <BackButton/>
+                  </>
+
+              )
+          }
+      })
+  },[navigation]);
 
     const renderProducts = ({ item }) => {
       item=Object.values(item)[0];

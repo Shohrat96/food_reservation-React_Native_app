@@ -1,14 +1,19 @@
-import { Text } from 'react-native';
+import { Alert, Text } from 'react-native';
 import React, { Component } from 'react';
 import { recipes, categories, ingredients } from './dataArrays';
 import App from '../API/firebaseConfig';
 import { connect } from 'react-redux';
 import store from '../store';
 
+let state=store.getState();
+const subscribe = store.subscribe(() =>
+  state=store.getState()
+)
 
 export function getCategoryById(categoryId) {
   let category;
   const categories=store.getState().categories;
+  
   for (let key in categories){
     if (categories[key].id == categoryId) {
       category = categories[key]
@@ -37,9 +42,11 @@ export function getIngredientUrl(ingredientID) {
   return url;
 }
 
-export function getCategoryName(categoryId) {
+
+export function getCategoryName (categoryId) {
+  
   let name;
-  const categories=store.getState().categories;
+  const categories=state.categories;
   for (let key in categories){
     if (categories[key].id == categoryId) {
       name = categories[key].name;

@@ -2,7 +2,6 @@ import React from 'react';
 import { TouchableHighlight, Image, Text, View, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './styles';
-import App from '../../API/firebaseConfig';
 
 
 export default class PlaceOrderButton extends React.Component {

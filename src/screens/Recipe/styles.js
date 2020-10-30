@@ -72,10 +72,24 @@ const styles = StyleSheet.create({
     color: '#2cd18a'
   },
   infoDescriptionRecipe: {
-    textAlign: 'left',
     fontSize: 16,
-    marginTop: 30,
-    margin: 15
+    marginTop: 10,
+    margin: 15,
+    flexDirection:'row',
+    flexWrap:'wrap',
+    //justifyContent:'space-between'
+  },
+  singleIngredient:{
+    padding:10,
+    paddingVertical:8,
+    borderColor:'#2cd18a',
+    borderWidth:1,
+    borderRadius:10,
+    justifyContent:'center',
+    alignItems:'center',
+    backgroundColor:'#2cd18a',
+    margin:10,
+    minWidth:60
   },
   infoRecipeName: {
     fontSize: 28,
@@ -83,6 +97,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'black',
     textAlign: 'center'
+  },
+  ingredientsTitle:{
+    fontSize:18,
+    fontWeight:'bold',
+    marginTop:20
   }
 });
 

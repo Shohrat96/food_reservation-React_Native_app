@@ -2,8 +2,10 @@ import React from 'react';
 import { TouchableHighlight, Image, Text, View } from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './styles';
+import {withNavigation} from 'react-navigation';
 
-export default class BackButton extends React.Component {
+
+class BackButton extends React.Component {
   render() {
     return (
       <TouchableHighlight onPress={this.props.onPress} style={styles.btnContainer}>
@@ -12,6 +14,8 @@ export default class BackButton extends React.Component {
     );
   }
 }
+
+export default withNavigation(BackButton)
 
 BackButton.propTypes = {
   onPress: PropTypes.func,

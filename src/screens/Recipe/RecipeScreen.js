@@ -93,8 +93,11 @@ const registerForPushNotificationsAsync = async (order) => {
 
 export default class RecipeScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
+    const item = navigation.getParam('item');
+
     return {
-      headerTransparent: 'true',
+      title:item.title,
+      //headerTransparent: 'true',
       headerLeft: (
         <BackButton
           onPress={() => {
@@ -115,7 +118,29 @@ export default class RecipeScreen extends React.Component {
       notification:null
     };
   }
-
+  ingredientss=[
+    {name:'yag'},
+    {name:'duz'},
+    {name:'şəkər tozu'},
+    {name:'yag'},
+    {name:'dsfdsfsd fdsf duz'},
+    {name:'un'},
+    {name:'yag'},
+    {name:'dsadasd dasdas '},
+    {name:'udasdasdas dasdas n'},
+    {name:'yadasdasdg'},
+    {name:'ddasdasdasuz'},
+    {name:'unasdas'},
+    {name:'yadasdg'},
+    {name:'duz'},
+    {name:'unasdasdasdasd'},
+    {name:'yag'},
+    {name:'duz'},
+    {name:'udasdn'},
+    {name:'yaadasd g'},
+    {name:'dusdasdasdasdasd dfsdfsfz'},
+    {name:'un'},
+  ]
   listenHandler=(notification)=>{
     this.setState({notification:notification})
   }
@@ -260,7 +285,20 @@ export default class RecipeScreen extends React.Component {
             
           </View>
           <View style={styles.infoContainer}>
-            <Text style={styles.infoDescriptionRecipe}>{item.description}</Text>
+            <Text style={styles.ingredientsTitle}>Tərkibi</Text>
+            <View style={styles.infoDescriptionRecipe}>
+              {
+                this.ingredientss.map((item,key)=>{
+                  return (
+                    <View key={item.id} style={styles.singleIngredient}>
+                      <Text style={{color:'white', fontWeight:'bold'}}>{item.name}</Text>
+                    </View>
+                  )
+                })
+              }
+
+            </View>
+            
           </View>
         </View>
       </ScrollView>

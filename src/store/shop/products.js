@@ -4,6 +4,7 @@ import { convertObToArr } from "../../data/MockDataAPI";
 
 // ACTION TYPES
 const SET_PRODUCTS='SET_PRODUCTS'
+const UPDATE_PRODUCT='UPDATE_PRODUCT'
 
 // SELECTORS
 export const MODULE_NAME = "products";
@@ -72,3 +73,29 @@ const initialState=[
       Alert.alert(error.message);
     }
   };
+
+  //UPDATE PRODUCT ACTION
+
+  export const updateData = (product) => {
+    console.log('action done',product)
+  }
+  // async (
+  //   dispatch
+  // ) => {
+  //     console.log('inside update method', product);
+  //   try {
+  //     fetch(`https://restaurant-reservation-33a36.firebaseio.com/products/${product}.json`,
+  //     {
+  //       method: 'UPDATE',
+  //       headers:{
+  //         Accept: 'application/json',
+  //         'Content-Type':'application/json'
+  //       }
+  //     }).then(resp=>resp.json()).then(data=>{
+  //       dispatch({type:'UPDATE_PRODUCT',payload: product});
+  //     })
+      
+  //   } catch (error) {
+  //     Alert.alert(error.message);
+  //   }
+  // };

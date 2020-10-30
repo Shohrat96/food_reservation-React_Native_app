@@ -19,6 +19,7 @@ import OrderDetailsScreen from '../screens/OrderDetailsScreen/OrderDetailsScreen
 import RegisterScreen from '../screens/Auth/RegisterScreen'
 import EditScreen from '../screens/Edit/EditScreen/EditScreen';
 import SingleProductEditScreen from '../screens/singleProductEdit/SingleProductEditScreen';
+import EditStack from './EditStack';
 
 
 
@@ -35,8 +36,7 @@ const MainNavigator = createStackNavigator(
     SingleOrder:SingleOrder,
     OrderDetails:OrderDetailsScreen,
     Register:RegisterScreen,
-    Edit:EditScreen,
-    SingleProductEdit:SingleProductEditScreen
+    Edit:EditStack,
   },
   {
     initialRouteName: 'Home',
@@ -48,7 +48,7 @@ const MainNavigator = createStackNavigator(
         fontWeight: 'bold',
         textAlign: 'center',
         flex: 1,
-      }
+      },
     })
   }
 ); 
