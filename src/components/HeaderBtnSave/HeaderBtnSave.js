@@ -1,13 +1,17 @@
 import { WorldAlignment } from 'expo/build/AR';
 import React from 'react';
-import {View, Text, TouchableOpacity, Image, StyleSheet} from 'react-native';
+import {View, Text, ActivityIndicator, TouchableOpacity, Image, StyleSheet} from 'react-native';
 import SavePic from '../../../assets/icons/save.png';
 
-const HeaderBtnSave=({onPress})=>{
+const HeaderBtnSave=({onPress, disabled, loading})=>{
     return (
-        <TouchableOpacity style={styles.container} onPress={onPress}>
+        <TouchableOpacity style={styles.container} onPress={onPress} disabled={disabled}>
             <View>
-                <Image source={SavePic}/>
+                {loading?
+                    <ActivityIndicator color='#777' />
+                :
+                    <Image source={SavePic} style={{tintColor:disabled?'#ccc':'#000'}} />
+                }
             </View>
         </TouchableOpacity>
     )
