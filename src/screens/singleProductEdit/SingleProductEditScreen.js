@@ -3,6 +3,7 @@ import {View,Button, Image, Text, FlatList,TouchableOpacity, TextInput, ImageBac
 import ImagePickerExample from '../../components/ImagePicker/ImagePicker';
 
 
+import App from '../../API/firebaseConfig'
 import PhotoPickModal from '../../components/PhotoPickModal/PhotoPickModal';
 import styles from './styles';
 import Dropdown from '../../components/Dropdown/Dropdown';
@@ -20,22 +21,32 @@ const mapStateToProps=(state)=>({
 })
 
 const mapDispatchToProps=(dispatch)=>({
-    updateData:()=>updateData()
+    updateData:(data)=>updateData(dispatch, data)
 })
+
+const SAVE_BTN_OFF = 0;
+const SAVE_BTN_ON = 1;
+const SAVE_BTN_LOADING = 2;
+
+
+async function uploadToFirebase(uri, path){
+    // try{    // commented try block, as error is handled outside
+        let blob = await (await fetch(uri)).blob()
+        let ref = App.storage.ref().child(path)
+        await ref.put(blob)
+        const downloadUrl = await ref.getDownloadURL()
+        return downloadUrl;
+    // } catch(e){
+    //     console.warn(e)
+    //     return false;
+    // }
+}
 
 const SingleProductEditScreen= connect(mapStateToProps, mapDispatchToProps)((props)=>{
     const {navigation}=props;
     console.log('props in new',props)
     useEffect(()=>{
         navigation.setOptions({
-            headerRight:()=>{
-                return (
-                    <>
-                        <HeaderBtnSave onPress={()=>console.log(productProperties)}/>
-                    </>
-
-                )
-            },
             headerLeft:()=>{
                 return (
                     <BackButton
@@ -44,7 +55,7 @@ const SingleProductEditScreen= connect(mapStateToProps, mapDispatchToProps)((pro
                 )
             }
         })
-    });
+    }, []);
 
     console.log('props in edit page: ',props)
     const product=props.route.params.product;
@@ -63,6 +74,53 @@ const SingleProductEditScreen= connect(mapStateToProps, mapDispatchToProps)((pro
     const showPhotoHandler=(uri)=>{
         setPhoto(uri);
     }
+    const [saveBtnState, setSaveBtnState] = useState(SAVE_BTN_OFF);
+
+    const onSavePress = async() => {
+        setSaveBtnState(SAVE_BTN_LOADING);
+        async function handlePhotoUpload(photoUrl){
+            if(photoUrl.substr(0, 7) === 'file://') {
+                try {
+                    
+                    let ext = photoUrl.split('.').pop()
+
+                    let fileName = Date.now()
+                    let uploadUrl = await uploadToFirebase(photoUrl, /*`products/${product.id}/${fileName}${ext}`*/'test/'+fileName+'.'+ext)
+                    return uploadUrl;
+                } catch (e) {
+                    console.log(e.message, '\nFailed to upload photo at', photoUrl)
+                }
+            } else return photoUrl
+        }
+        let photosArray = [];
+        let photo_url = await handlePhotoUpload(productProperties.photoUrl);
+        for(let pInd in productProperties.photosArray){
+            photosArray.push(await handlePhotoUpload(productProperties.photosArray[pInd]))   
+        }
+
+        let dataToUpload = {
+            ...productProperties,
+            photosArray,
+            photo_url,
+            id:product.id
+        };
+        delete dataToUpload.photoUrl;
+
+        await props.updateData(dataToUpload)
+        setSaveBtnState(SAVE_BTN_OFF);
+    }
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerRight: () =>
+                <HeaderBtnSave
+                    loading={saveBtnState===SAVE_BTN_LOADING}
+                    disabled={saveBtnState!==SAVE_BTN_ON}
+                    onPress={() => onSavePress()}
+                />
+        })
+    }, [saveBtnState, productProperties])
+
     //photo select modal handler
     const photoModalHandler=(mode, index)=>{
         
@@ -108,6 +166,7 @@ const SingleProductEditScreen= connect(mapStateToProps, mapDispatchToProps)((pro
         return result
      }
     const changeStateHandler=(field,value,inputIdx, action)=>{
+        setSaveBtnState(SAVE_BTN_ON);
         //change Photo
         if (field==='photosArray' && action==='changePhoto'){
 
@@ -173,7 +232,7 @@ const SingleProductEditScreen= connect(mapStateToProps, mapDispatchToProps)((pro
                 default:
                     return null
             }
-            
+
         }
         editProductProperties(prevState=>({
             ...prevState,
