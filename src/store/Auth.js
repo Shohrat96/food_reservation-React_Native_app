@@ -63,18 +63,28 @@ export const setAuthLogout = () => ({
 });
 
 // MIDDLEWARES
-export const sign = (email, password, username, isSignIn=false) => async (
+export const sign = (email, password, username, isSignIn) => async (
   dispatch
 ) => {
     console.log('inside sign method');
   try {
     
-    if (isSignIn) { Alert.alert('is sign in')
-      ({
-        user: { uid },
-      } = await App.auth.signInWithEmailAndPassword(email, password));
-      const userDataSnapshot = await App.db.ref(`users/${uid}`).once("value");
-      ({ username/*,photo*/ } = userDataSnapshot.val());
+    if (isSignIn) { 
+      console.log('is sign in');
+      const userRef=await App.auth.signInWithEmailAndPassword(email, password);
+      const {uid}=userRef.user;
+      console.log('user: ',uid)
+
+      const userDataSnapshot = await App.db.ref(`users/admins`);
+      var leadsRef = App.db.ref('users/admins');
+      leadsRef.on('value', function(snapshot) {
+        console.log('snapshot:',snapshot)
+          snapshot.forEach(function(childSnapshot) {
+            let childData = childSnapshot.val();
+            console.log('child data: ',childData)
+          });
+      });
+      console.log('username: ',userDataSnapshot);
     } else {
         try {
             console.log('inside signup, email and pass: ',email,password);

@@ -42,7 +42,7 @@ const RegisterScreen= connect(mapStateToProps, {sign}) ((props)=>{
         try {
             console.log('inside try block');
           //App.auth.createUserWithEmailAndPassword(email,password).then((userCredential)=>console.log(userCredential), (reason)=>console.log(reason));
-          sign(email,password, 'test',false);          
+          sign(email,password, 'test',true);          
         } catch (error) {
           console.log('error: ',error);
         }
