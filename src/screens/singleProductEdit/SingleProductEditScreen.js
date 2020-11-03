@@ -38,7 +38,7 @@ async function uploadToFirebase(uri, path){
         return downloadUrl;
     // } catch(e){
     //     console.warn(e)
-    //     return false;
+    //     return false
     // }
 }
 
