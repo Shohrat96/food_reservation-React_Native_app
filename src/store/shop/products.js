@@ -44,7 +44,12 @@ const initialState=[
     function reducer(state = initialState, { type, payload }) {
     switch (type) {
         case SET_PRODUCTS:
-            return payload
+          return payload
+        case UPDATE_PRODUCT:
+          let newState = {...state};
+          newState[payload.id] = payload;
+          return newState;
+          // return state
         default:
           return state
     }
@@ -76,9 +81,16 @@ const initialState=[
 
   //UPDATE PRODUCT ACTION
 
-  export const updateData = (product) => {
-    console.log('action done',product)
+export const updateData = async(dispatch, product) => {
+  console.log('inside update method') //) //
+  try {
+    await App.db.ref('products').child(product.id).update(product);
+    dispatch({type: UPDATE_PRODUCT, payload: product});
+    
+  } catch (error) {
+    Alert.alert(error.message);
   }
+};
   // async (
   //   dispatch
   // ) => {
