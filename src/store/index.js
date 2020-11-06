@@ -13,6 +13,7 @@ import {MODULE_NAME as productModuleName} from './shop/products';
 import productsReducer from './shop/products';
 import ordersReducer, {MODULE_NAME as ordersModuleName} from './shop/orders';
 import categoriesReducer, {MODULE_NAME as categoriesModuleName} from './shop/categories';
+import { Notifications } from "expo";
 
 const rootReducer = combineReducers({
   [authModuleName]: authReducer,
@@ -38,4 +39,13 @@ export const persistor = persistStore(store);
 // authChangeListener(store);
 
 export default store;
+
+export let state=store.getState();
+
+store.subscribe(() => 
+    {
+      state=store.getState();
+      console.log('state after listener: ',state)
+    }
+)
 

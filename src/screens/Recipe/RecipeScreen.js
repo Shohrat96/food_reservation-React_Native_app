@@ -17,6 +17,7 @@ import ViewIngredientsButton from '../../components/ViewIngredientsButton/ViewIn
 import PlaceOrderButton from '../../components/PlaceOrderButton/PlaceOrder';
 import OrderFormModal from '../../components/orderFormModal/OrderFormModal';
 import IngredientsDetailsScreen from '../IngredientsDetails/IngredientsDetailsScreen';
+import OrdersScreen from '../Orders/OrdersScreen'
 
 import App from '../../API/firebaseConfig';
 import * as Permissions from 'expo-permissions'
@@ -130,16 +131,6 @@ export default class RecipeScreen extends React.Component {
     {name:'udasdasdas dasdas n'},
     {name:'yadasdasdg'},
     {name:'ddasdasdasuz'},
-    {name:'unasdas'},
-    {name:'yadasdg'},
-    {name:'duz'},
-    {name:'unasdasdasdasd'},
-    {name:'yag'},
-    {name:'duz'},
-    {name:'udasdn'},
-    {name:'yaadasd g'},
-    {name:'dusdasdasdasdasd dfsdfsfz'},
-    {name:'un'},
   ]
   listenHandler=(notification)=>{
     this.setState({notification:notification})
@@ -191,13 +182,13 @@ export default class RecipeScreen extends React.Component {
       orderModalShow:false
     })
   };
-
+  navigation=this.props.navigation;
   render() {
     const { activeSlide } = this.state;
     const { navigation } = this.props;
     const item = navigation.getParam('item');
     const category = getCategoryById(item.categoryId);
-    const title = getCategoryName(category.id);
+    const title = getCategoryName(item.categoryId);
 
     const submitOrderHandler=(contactInfo)=>{
       App.db.ref(`orders/`).push({ orderedItem:item, contactInfo:contactInfo}).then(
@@ -212,13 +203,8 @@ export default class RecipeScreen extends React.Component {
     return (
       <>
         {
-          this.state.notification?.origin==='selected'? (
-            <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
-              <Text>
-                {JSON.stringify(this.state.notification.data)}
-              </Text>
-            </View>
-          ):
+          this.state.notification?.origin==='selected'? this.navigation.navigate('Orders')
+          :
           <>
       {
         this.state.orderModalShow?<OrderFormModal clickToClose={this.modalHide} submitOrderHandler={submitOrderHandler} />:null

@@ -1,5 +1,5 @@
-import React, { useLayoutEffect } from 'react';
-import {View, Text, Image, Button,TouchableHighlight,FlatList, ScrollView} from 'react-native';
+import React, { useEffect, useLayoutEffect } from 'react';
+import {View, Text, Image, Button, TouchableHighlight, TouchableOpacity,FlatList, ScrollView, Alert} from 'react-native';
 import { connect } from 'react-redux';
 import { convertObToArr, getCategoryName } from '../../../data/MockDataAPI';
 import styles from './styles';
@@ -7,7 +7,8 @@ import BackButton from '../../../components/BackButton/BackButton';
 
 
 const mapStateToProps=(state)=>({
-    productsKeyInEdit:state.products
+    productsKeyInEdit:state.products,
+    categories:state.categories
 })
 const EditScreen = connect(mapStateToProps)((props)=>{
     console.log('props in Edit page: ',props);
@@ -17,18 +18,24 @@ const EditScreen = connect(mapStateToProps)((props)=>{
     };
     
 
-    useLayoutEffect(()=>{
-      navigation.setOptions({
-          headerLeft:()=>{
-              return (
-                  <>
-                      <BackButton/>
-                  </>
-
-              )
-          }
-      })
-  },[navigation]);
+  //   useEffect(()=>{
+  //     navigation.setOptions({
+          
+  //         title:'Edit'
+  //     })
+  // },[]);
+  useEffect(()=>{
+        navigation.setOptions({
+            headerLeft:()=>{
+                return (
+                    <BackButton
+                    onPress={()=>console.log(navigation)}
+                />
+                )
+            },
+            title:'Edit'
+        })
+    }, []);
 
     const renderProducts = ({ item }) => {
       item=Object.values(item)[0];
@@ -44,6 +51,21 @@ const EditScreen = connect(mapStateToProps)((props)=>{
 
     return (
         <View>
+            <TouchableOpacity style={
+              {
+               alignItems:'flex-end',
+               padding:10,
+               borderBottomWidth:1,
+               borderBottomColor:'#2cd18a'
+            }} 
+            onPress={()=>navigation.navigate('EditCategoriesScreen')}>
+                <Text style={{
+                  fontSize:16,
+                  fontWeight:'bold'
+                }}>
+                    Kateqoriyalara keçid
+                </Text>
+            </TouchableOpacity>
             <FlatList
             vertical
             showsVerticalScrollIndicator={true}

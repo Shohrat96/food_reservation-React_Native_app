@@ -12,7 +12,8 @@ import App from '../../API/firebaseConfig';
 
 const mapStateToProps=(state)=>{
   return {
-    productsKeyInHome:state.products
+    productsKeyInHome:state.products,
+    categories:state.categories
   }
 }
 
@@ -49,6 +50,8 @@ export default connect(mapStateToProps, {setData})(class HomeScreen extends Reac
 
   renderProducts = ({ item }) => {
     item=Object.values(item)[0];
+    console.log('item in home ',item);
+    
     return (
     <TouchableHighlight underlayColor='rgba(73,182,77,1,0.9)' onPress={() => this.onPressRecipe(item)}>
       <View style={styles.container}>

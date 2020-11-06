@@ -20,20 +20,21 @@ const PhotoPickModal=(props)=>{
       };
       
       const pickImage = async (mode) => {
+        const {ratio}=props || [1,1]
         selectPhoto();
         let result;
         if (mode === 'select'){
           result = await ImagePicker.launchImageLibraryAsync({
               mediaTypes: ImagePicker.MediaTypeOptions.All,
               allowsEditing: true,
-              aspect: [1, 1],
+              aspect: ratio,
               quality: 1,
             });
         } else if (mode==='take'){
           result = await ImagePicker.launchCameraAsync({
               mediaTypes: ImagePicker.MediaTypeOptions.All,
               allowsEditing: true,
-              aspect: [1, 1],
+              aspect: ratio,
               quality: 1,
             });
         }

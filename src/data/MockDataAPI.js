@@ -3,12 +3,9 @@ import React, { Component } from 'react';
 import { recipes, categories, ingredients } from './dataArrays';
 import App from '../API/firebaseConfig';
 import { connect } from 'react-redux';
-import store from '../store';
+import store, { state } from '../store';
 
-let state=store.getState();
-const subscribe = store.subscribe(() =>
-  state=store.getState()
-)
+
 
 export function getCategoryById(categoryId) {
   let category;
@@ -43,10 +40,13 @@ export function getIngredientUrl(ingredientID) {
 }
 
 
-export function getCategoryName (categoryId) {
-  
+export function getCategoryName (categoryId,categoriess) {
   let name;
+  console.log('second param categories: ',categoriess)
   const categories=state.categories;
+  console.log('first param categories: ',categories)
+  console.log('categoryId: ',categoryId);
+  //Alert.alert(JSON.stringify(categoriess))
   for (let key in categories){
     if (categories[key].id == categoryId) {
       name = categories[key].name;

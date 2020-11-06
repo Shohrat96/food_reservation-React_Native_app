@@ -10,7 +10,6 @@ import { NavigationContainer } from '@react-navigation/native';
 export default class  App extends Component  {
     
     render(){
-      AsyncStorage.clear()
 
       return (
         //<AppContainer />

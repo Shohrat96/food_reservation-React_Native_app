@@ -9,12 +9,13 @@ const CustomeTextInput =(props)=>{
     const [focused, setFocused]=useState(false);
     return (
         <TextInput
+        {...props}
         enablesReturnKeyAutomatically
         selectionColor='#2cd18a'
         onFocus={()=>{setFocused(true)}}
         onBlur={()=>setFocused(false)}
-        style={{borderBottomColor:focused?PRIMARY_COLOR:ON_FOCUS_COLOR, borderBottomWidth:2}}
-        {...props}>
+        style={[{...props.style},{color:focused?PRIMARY_COLOR:ON_FOCUS_COLOR, borderBottomWidth:2}]}
+        >
         </TextInput>
     )
 }

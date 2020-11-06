@@ -25,19 +25,15 @@ const initialState = {
 export function reducer(state = initialState, { type, payload }) {
   switch (type) {
     case SET_AUTH_SUCCESS:
-      return {
-        ...state,
-        status: true,
-        userID: payload.userID,
-        username: payload.username,
-        /*photo: payload.photo,*/
-      };
+      console.log('in reducer');
+      return payload
     case SET_AUTH_LOGOUT:
       return {
         ...state,
         status: false,
         userID: null,
         username: null,
+        isAdmin:null
       };
     /*case SET_AUTH_PHOTO:
       return {
@@ -67,27 +63,37 @@ export const sign = (email, password, username, isSignIn) => async (
   dispatch
 ) => {
     console.log('inside sign method');
+    var isAdmin=false;
+    let uid=null;
   try {
     
     if (isSignIn) { 
       console.log('is sign in');
       const userRef=await App.auth.signInWithEmailAndPassword(email, password);
-      const {uid}=userRef.user;
+      uid=userRef.user.uid;
       console.log('user: ',uid)
-
-      const userDataSnapshot = await App.db.ref(`users/admins`);
-      var leadsRef = App.db.ref('users/admins');
-      leadsRef.on('value', function(snapshot) {
-        console.log('snapshot:',snapshot)
-          snapshot.forEach(function(childSnapshot) {
-            let childData = childSnapshot.val();
-            console.log('child data: ',childData)
-          });
-      });
-      console.log('username: ',userDataSnapshot);
+      const admins = App.db.ref().child('users').child('admins');
+      admins.once('value').then(
+        (data)=>{
+          Object.keys(data.toJSON()).forEach(uidAdmin=>{
+            if (uidAdmin===uid){
+              dispatch(
+                setAuthSuccess({
+                  userID: uid,
+                  username,
+                  status: true,
+                  isAdmin:true
+                  /*photo,*/
+                })
+              );
+              return
+            }
+          })
+        }
+      )
+      
     } else {
         try {
-            console.log('inside signup, email and pass: ',email,password);
             ({
               user: { uid },
             } = await App.auth.createUserWithEmailAndPassword(email, password));
@@ -105,11 +111,13 @@ export const sign = (email, password, username, isSignIn) => async (
         userID: uid,
         username,
         status: true,
+        isAdmin:false
         /*photo,*/
       })
     );
+    console.log('is admin in end: ',isAdmin)
   } catch (error) {
-    Alert.alert(error.message);
+    console.log(error.message);
   }
 };
 

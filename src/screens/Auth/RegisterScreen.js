@@ -1,26 +1,10 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, TextInput, Button, TouchableOpacity, Alert } from 'react-native';
 import App from '../../API/firebaseConfig';
 import { sign } from '../../store/Auth';
 import { connect } from "react-redux";
-//import { authChangeListener } from "../../utils/authChangeListener";
+import { auth } from 'firebase';
 
-
-/*import * as firebase from 'firebase';
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCMT1K832HGadLlX6S_rNuCDUgoiP8QWaY",
-  authDomain: "restaurant-reservation-33a36.firebaseapp.com",
-  databaseURL: "https://restaurant-reservation-33a36.firebaseio.com",
-  projectId: "restaurant-reservation-33a36",
-  storageBucket: "restaurant-reservation-33a36.appspot.com",
-  messagingSenderId: "68147655954",
-  appId: "1:68147655954:web:e688b1dbceec64227b2fcb",
-  measurementId: "G-2LBCEY788Z"
-};
-if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-}*/
 
 function mapStateToProps(state){
   return {
@@ -29,28 +13,81 @@ function mapStateToProps(state){
 }
 
 const RegisterScreen= connect(mapStateToProps, {sign}) ((props)=>{
-    const {sign}=props;
+    const {sign,navigation}=props;
     console.log('props in shop: ',props);
     const [credentials,setCredentials]=useState({
         email:'',
-        password:''
-      })
+        password:'',
+        repeatPass:''
+      });
+      const [curState,setCurState]=useState('login');
       const signUpHandler=(credentials)=>{
-        console.log('sign up fired');
-        const {email, password}=credentials;
-        console.log('email and pass',email,password);
-        try {
-            console.log('inside try block');
-          //App.auth.createUserWithEmailAndPassword(email,password).then((userCredential)=>console.log(userCredential), (reason)=>console.log(reason));
-          sign(email,password, 'test',true);          
-        } catch (error) {
-          console.log('error: ',error);
+        const {email, password, repeatPass}=credentials;
+        if (curState==='login'){
+          try {
+            if (email.trim().length && password.trim().length){
+             const login= sign(email,password, 'test',true); 
+              
+              console.log('login result: ',login)        
+            } else {
+              Alert.alert('Bütün xanaları doldurun...');
+              console.log('Bütün xanaları doldurun...');
+              
+            }
+          } catch (error) {
+            console.log('error: ',error);
+          }
+        } else if (curState==='signup'){
+          try {
+            let check=(Object.values(credentials).every(field=>{
+              return field.trim().length>0;
+            }))
+            if (check){
+              if (credentials.repeatPass===credentials.password){
+                sign(email,password, 'test',false);          
+              } else {
+                console.log("password doesn't match...")
+                Alert.alert("password doesn't match...")
+              }
+            } else {
+              console.log('Bütün xanaları doldurun...');
+
+              Alert.alert('Bütün xanaları doldurun...');
+            }
+          } catch (error) {
+            console.log('error: ',error);
+            Alert.alert('error: ',error);
+          }
         }
-    
       }
-      
+      console.log('props in register: ',props);
+      useEffect(()=>{
+        if (props.auth.userID){
+          navigation.navigate('Home')
+        }
+      },[props.auth])
       return (
+        
          <View style={styles.container}>
+           <View style={{
+             flexDirection:'row',
+             justifyContent:'center',
+             backgroundColor:'red'
+           }}>
+              <TouchableOpacity 
+              style={{
+                marginRight:10
+              }}
+              onPress={()=>setCurState('signup')}
+              >
+                  <Text>Sign Up</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+              onPress={()=>setCurState('login')}
+              >
+                  <Text>Log In</Text>
+              </TouchableOpacity>
+           </View>
            <Text>email</Text>
            <TextInput keyboardType={"email-address"} value={credentials.email} placeholder='email@sample.com' onChangeText={value=>{setCredentials(prevState=>{
              return {
@@ -59,14 +96,27 @@ const RegisterScreen= connect(mapStateToProps, {sign}) ((props)=>{
              }
            })}} />
            <Text>password</Text>
-           <TextInput secureTextEntry placeholder='password' onChangeText={value=>{setCredentials(prevState=>{
+           <TextInput secureTextEntry placeholder='password' value={credentials.password} onChangeText={value=>{setCredentials(prevState=>{
              return {
                ...prevState,
                password:value
              }
            })}}/>
+           {
+             curState==='signup'?(
+               <>
+                  <Text>Repeat password</Text>
+                  <TextInput secureTextEntry placeholder='repeat password' value={credentials.repeatPass} onChangeText={value=>{setCredentials(prevState=>{
+                    return {
+                      ...prevState,
+                      repeatPass:value
+                    }
+                  })}}/>
+                
+               </>):null
+           }
            <View style={{paddingTop:10}}>
-            <Button style={{marginTop:20}} title='SignUp' onPress={()=>signUpHandler(credentials)} />
+            <Button style={{marginTop:20}} title='Submit' onPress={()=>signUpHandler(credentials)} />
            </View>
          </View>
       );

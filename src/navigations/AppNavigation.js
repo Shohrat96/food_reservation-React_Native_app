@@ -1,10 +1,6 @@
 import { createAppContainer } from 'react-navigation';
 import {createDrawerNavigator} from 'react-navigation-drawer'
 import {createStackNavigator} from 'react-navigation-stack'
-/* import React from 'react'
-import {createStackNavigator} from '@react-navigation/stack'
-import {NavigationContainer} from '@react-navigation/native'
-import {createDrawerNavigator} from '@react-navigation/drawer' */
 import HomeScreen from '../screens/Home/HomeScreen';
 import CategoriesScreen from '../screens/Categories/CategoriesScreen';
 import RecipeScreen from '../screens/Recipe/RecipeScreen';
@@ -20,8 +16,15 @@ import RegisterScreen from '../screens/Auth/RegisterScreen'
 import EditScreen from '../screens/Edit/EditScreen/EditScreen';
 import SingleProductEditScreen from '../screens/singleProductEdit/SingleProductEditScreen';
 import EditStack from './EditStack';
+import { Notifications } from 'expo';
 
 
+let notificationReceived=null;
+const listenHandler=(notification)=>{
+  notificationReceived=notification
+}
+
+Notifications.addListener(listenHandler);
 
 const MainNavigator = createStackNavigator(
   {
@@ -39,7 +42,7 @@ const MainNavigator = createStackNavigator(
     Edit:EditStack,
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: notificationReceived? 'Orders': 'Home',
     //headerMode: 'float',
     
     defaulfNavigationOptions: ({ navigation }) => ({

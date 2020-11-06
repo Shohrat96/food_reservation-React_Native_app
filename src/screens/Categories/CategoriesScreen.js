@@ -60,13 +60,7 @@ export default connect(mapStateToProps,{setCategories}) (class CategoriesScreen 
     console.log('props in categories: ',convertObToArr(this.props.categories))
     return (
       <View>
-        <Button title='create a category' onPress={()=>this.sendNewCategory(
-          {
-            name: 'testttt',
-            photo_url:
-            'https://www.telegraph.co.uk/content/dam/Travel/2019/January/france-food.jpg?imwidth=1400'
-        }
-        )}/>
+        
         <FlatList
           data={convertObToArr(this.props.categories)}
           renderItem={this.renderCategory}

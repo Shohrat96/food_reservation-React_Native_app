@@ -43,7 +43,8 @@ const initialState=[
         recipeId:3,
         time: '10',
         title: 'Triple Berry Smoothie'
-      }
+      },
+      notification:{}
     }
   }
     

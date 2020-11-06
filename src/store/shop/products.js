@@ -82,12 +82,13 @@ const initialState=[
   //UPDATE PRODUCT ACTION
 
 export const updateData = async(dispatch, product) => {
-  console.log('inside update method') //) //
+  console.log('inside update method',product) //) //
   try {
     await App.db.ref('products').child(product.id).update(product);
     dispatch({type: UPDATE_PRODUCT, payload: product});
     
   } catch (error) {
+    console.log('error: ',error);
     Alert.alert(error.message);
   }
 };

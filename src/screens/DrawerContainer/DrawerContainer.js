@@ -3,17 +3,22 @@ import { View } from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './styles';
 import MenuButton from '../../components/MenuButton/MenuButton';
+import { connect } from 'react-redux';
+import { logOut } from '../../store/Auth';
 
 
-
-export default class DrawerContainer extends React.Component {
+const mapStateToProps=(state)=>({
+  auth:state.auth
+})
+export default connect(mapStateToProps, {logOut})(class DrawerContainer extends React.Component {
   constructor(props){
     super(props);
-    this.state={
-      flag:true
-    }
   }
+
+
   render() {
+    const auth=this.props.auth;
+
     const { navigation } = this.props;
     return (
       <View style={styles.content}>
@@ -42,7 +47,34 @@ export default class DrawerContainer extends React.Component {
               navigation.closeDrawer();
             }}
           />
-          <MenuButton
+          {
+            auth.userID?(
+              <MenuButton
+                title="LOG OUT"
+                source={require('../../../assets/icons/register.png')}
+                onPress={() => {
+                  //LOG OUT ACTION
+                  this.props.logOut()
+                  navigation.closeDrawer();
+            }}
+          />
+            ):(
+              <MenuButton
+                title="REGISTER"
+                source={require('../../../assets/icons/register.png')}
+                onPress={() => {
+                  //LOG OUT ACTION
+                  navigation.navigate('Register');
+                  navigation.closeDrawer();
+            }}
+          />
+            )
+          }
+          
+          {
+            auth?.isAdmin?(
+              <>
+              <MenuButton
             title="ORDERS"
             source={require('../../../assets/icons/order.png')}
             onPress={() => {
@@ -50,16 +82,6 @@ export default class DrawerContainer extends React.Component {
               navigation.closeDrawer();
             }}
           />
-          <MenuButton
-            title="REGISTER"
-            source={require('../../../assets/icons/register.png')}
-            onPress={() => {
-              navigation.navigate('Register');
-              navigation.closeDrawer();
-            }}
-          />
-          {
-            this.state.flag?
             <MenuButton
             title="EDIT CONTENT"
             source={require('../../../assets/icons/edit.png')}
@@ -67,16 +89,19 @@ export default class DrawerContainer extends React.Component {
               navigation.navigate('Edit');
               navigation.closeDrawer();
             }}
-          />:null
+          />
+              </>
+            ):null
           }
+          
         </View>
       </View>
     );
   }
-}
+})
 
-DrawerContainer.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func.isRequired
-  })
-};
+// DrawerContainer.propTypes = {
+//   navigation: PropTypes.shape({
+//     navigate: PropTypes.func.isRequired
+//   })
+// };

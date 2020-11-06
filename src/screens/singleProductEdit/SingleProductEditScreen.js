@@ -44,7 +44,8 @@ async function uploadToFirebase(uri, path){
 
 const SingleProductEditScreen= connect(mapStateToProps, mapDispatchToProps)((props)=>{
     const {navigation}=props;
-    console.log('props in new',props)
+    const product=props.route.params.product;
+
     useEffect(()=>{
         navigation.setOptions({
             headerLeft:()=>{
@@ -53,20 +54,18 @@ const SingleProductEditScreen= connect(mapStateToProps, mapDispatchToProps)((pro
                     onPress={()=>navigation.goBack()}
                 />
                 )
-            }
+            },
+            title:product.title
         })
     }, []);
 
-    console.log('props in edit page: ',props)
-    const product=props.route.params.product;
-    console.log('props in edit page : ',product);
     const [photo, setPhoto]=useState(null);
     const [photoModal,showPhotoModal]=useState({show:false,mode:null});
     const [arrIndex, setArrInd]=useState(null);
     const [selected, setSelected]=useState(null);
     const [productProperties, editProductProperties]=useState({
         title:product.title,
-        category:product.categoryId,
+        categoryId:product.categoryId,
         photoUrl:product.photo_url,
         photosArray:product.photosArray,
         ingredients:product.ingredients
@@ -85,7 +84,7 @@ const SingleProductEditScreen= connect(mapStateToProps, mapDispatchToProps)((pro
                     let ext = photoUrl.split('.').pop()
 
                     let fileName = Date.now()
-                    let uploadUrl = await uploadToFirebase(photoUrl, /*`products/${product.id}/${fileName}${ext}`*/'test/'+fileName+'.'+ext)
+                    let uploadUrl = await uploadToFirebase(photoUrl, /*`products/${product.id}/${fileName}${ext}`*/`${product.id}/`+fileName+'.'+ext)
                     return uploadUrl;
                 } catch (e) {
                     console.log(e.message, '\nFailed to upload photo at', photoUrl)
@@ -137,6 +136,7 @@ const SingleProductEditScreen= connect(mapStateToProps, mapDispatchToProps)((pro
                     showPhotoHandler={(uri)=>showPhotoHandler(uri)}/>
                 )
             case 'addPhoto':
+                
                 return (
                     <PhotoPickModal 
                     mode={'addPhoto'} 
@@ -271,7 +271,7 @@ const SingleProductEditScreen= connect(mapStateToProps, mapDispatchToProps)((pro
     return (
         <View style={styles.container}>
             {photoModal.show && photoModalHandler(photoModal.mode)}
-            
+
             <ScrollView contentContainerStyle={styles.scrollContent}>
                 <TouchableOpacity onPress={()=>{setSelected('photoUrl'); showPhotoModal(prevState=>({
                     ...prevState,
@@ -290,8 +290,8 @@ const SingleProductEditScreen= connect(mapStateToProps, mapDispatchToProps)((pro
                 
                 <Dropdown
                     items={categoryArr(convertObToArr(props.categories))}
-                    onValueChange={(value)=>changeStateHandler('category',value)}
-                    value={productProperties.category}
+                    onValueChange={(value)=>changeStateHandler('categoryId',value)}
+                    value={productProperties.categoryId}
                     placeholder={{}}
                 />
 
@@ -308,7 +308,15 @@ const SingleProductEditScreen= connect(mapStateToProps, mapDispatchToProps)((pro
                 />
                     ):null
                 }
-                <CustomButton backgroundColor={'#2cd18a'} onPress={()=>console.log(productProperties)} title={'Foto əlavə et'}/>
+                <CustomButton 
+                backgroundColor={'#2cd18a'} 
+                onPress={()=>
+                    showPhotoModal(prevState=>({
+                        ...prevState,
+                        show:true,
+                        mode:'addPhoto'
+                    }))} 
+                title={'Foto əlavə et'}/>
 
                 <View style={styles.ingredientsEdit}>
                     <Text style={{fontWeight:'bold', fontSize:16}}>Tərkibi</Text>

@@ -10,55 +10,7 @@ import { connect } from 'react-redux';
 import { setOrders } from '../../store/shop/orders';
 
 
-const orders=[
-  {
-    contactInfo:{
-      name:'name1',
-      surname:'surname1',
-      date:'10/10/2020',
-      time:'17:00',
-      countFood:2,
-      countPerson:1,
-      number:'0505505050'
-    },
-    orderItem:{
-      title:'Triple Berry Smoothie',
-    },
-    id:1
-  },
-  {
-    contactInfo:{
-      name:'name2',
-      surname:'surname2',
-      date:'12/10/2020',
-      time:'18:00',
-      countFood:2,
-      countPerson:1,
-      number:'0505505050'
 
-    },
-    orderItem:{
-      title:'Some Title 2',
-    },
-    id:2
-  },
-  {
-    contactInfo:{
-      name:'name3',
-      surname:'surname3',
-      date:'13/10/2020',
-      time:'19:00',
-      countFood:2,
-      countPerson:1,
-      number:'0505505050'
-
-    },
-    orderItem:{
-      title:'Some Title 3',
-    },
-    id:3
-  }
-]
 
 const mapStateToProps=(state)=>({
   orders:state.orders
