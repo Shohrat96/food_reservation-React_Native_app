@@ -1,6 +1,7 @@
+import React from 'react'
 import { createAppContainer } from 'react-navigation';
 import {createDrawerNavigator} from 'react-navigation-drawer'
-import {createStackNavigator} from 'react-navigation-stack'
+import {createStackNavigator, HeaderBackButton} from 'react-navigation-stack'
 import HomeScreen from '../screens/Home/HomeScreen';
 import CategoriesScreen from '../screens/Categories/CategoriesScreen';
 import RecipeScreen from '../screens/Recipe/RecipeScreen';
@@ -36,7 +37,9 @@ const MainNavigator = createStackNavigator(
     Search: SearchScreen,
     IngredientsDetails: IngredientsDetailsScreen,
     Orders:OrdersScreen,
-    SingleOrder:SingleOrder,
+    SingleOrder:{screen:SingleOrder,navigationOptions: ({ navigation }) => ({
+      headerLeft: (<HeaderBackButton onPress={_ => navigation.navigate("Orders")}/>)
+    })},
     OrderDetails:OrderDetailsScreen,
     Register:RegisterScreen,
     Edit:EditStack,

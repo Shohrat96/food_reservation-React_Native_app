@@ -136,7 +136,7 @@ export default class RecipeScreen extends React.Component {
     this.setState({notification:notification})
   }
   componentDidMount(){
-    this.listener=Notifications.addListener(this.listenHandler)
+    // this.listener=Notifications.addListener(this.listenHandler)
   }
   /*componentWillUnmount(){
 
