@@ -40,7 +40,7 @@ async function sendPushNotification(expoPushToken,order) {
     sound: 'default',
     title: 'Original Title',
     body: messageTemplate,
-    data: {message:messageTemplate},
+    data: {message:messageTemplate,route:"SingleOrder",channelId:"orders",orderedItem:{"title":title},contactInfo:{"dateOnly":dateOnly,"timeOnly":timeOnly}},
   };
 
   await fetch('https://exp.host/--/api/v2/push/send', {
@@ -54,7 +54,7 @@ async function sendPushNotification(expoPushToken,order) {
   });
 }
 
-
+// you don't need this here , there no need to call this function
 const registerForPushNotificationsAsync = async (order) => {
 
   if (Constants.isDevice) {
@@ -160,7 +160,12 @@ export default class RecipeScreen extends React.Component {
       orderSuccess:true,
       orderStart:false
     });
-    registerForPushNotificationsAsync(order);
+    // registerForPushNotificationsAsync(order);
+    let user =  App.db.ref('users/6GX8plM7xQUdikbbIi3bpsGqDUI3').once('value').then(function(snapshot) {
+      var token = (snapshot.val() && snapshot.val().expoToken);
+      // ...
+      sendPushNotification(token, order)
+    });
   };
   orderFailed=()=>{
     this.setState({
