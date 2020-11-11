@@ -55,6 +55,7 @@ export default connect(mapStateToProps, {logOut})(class DrawerContainer extends 
                 onPress={() => {
                   //LOG OUT ACTION
                   this.props.logOut()
+                  navigation.navigate('Home')
                   navigation.closeDrawer();
             }}
           />

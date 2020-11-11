@@ -68,7 +68,8 @@ const SingleProductEditScreen= connect(mapStateToProps, mapDispatchToProps)((pro
         categoryId:product.categoryId,
         photoUrl:product.photo_url,
         photosArray:product.photosArray,
-        ingredients:product.ingredients
+        ingredients:product.ingredients,
+        price:product.price
     })
     const showPhotoHandler=(uri)=>{
         setPhoto(uri);
@@ -287,7 +288,16 @@ const SingleProductEditScreen= connect(mapStateToProps, mapDispatchToProps)((pro
                 </TouchableOpacity>
 
                 <TextInput style={styles.productTitle} value={productProperties.title} onChangeText={(text)=>changeStateHandler('title',text)}/>
-                
+                <Text>Qiymət (AZN)</Text>
+                <TextInput keyboardType={'numeric'} style={{
+                    width:60, 
+                    textAlign:'center',
+                    borderWidth:1,
+                    borderColor:'#2cd18a',
+                    borderRadius:5,
+                    marginTop:5
+                    }} value={productProperties.price} onChangeText={(text)=>changeStateHandler('price',text)}/>
+
                 <Dropdown
                     items={categoryArr(convertObToArr(props.categories))}
                     onValueChange={(value)=>changeStateHandler('categoryId',value)}

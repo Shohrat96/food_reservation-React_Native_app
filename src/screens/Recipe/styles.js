@@ -15,16 +15,17 @@ const styles = StyleSheet.create({
   image: {
     ...StyleSheet.absoluteFillObject,
     width: '100%',
-    height: 350,
+    height: viewportWidth,
     //resizeMode:'center',
-    
   },
+
   imageContainer: {
     flex: 1,
     justifyContent: 'center',
     width: viewportWidth,
     height: 350
   },
+
   paginationContainer: {
     flex: 1,
     position: 'absolute',

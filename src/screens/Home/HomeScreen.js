@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, ScrollView, Text, View, TouchableHighlight, Image, Alert, Button } from 'react-native';
+import { FlatList, ScrollView, Text, View, TouchableHighlight, Image, TouchableOpacity } from 'react-native';
 import styles from './styles';
 import { recipes } from '../../data/dataArrays';
 import MenuImage from '../../components/MenuImage/MenuImage';
@@ -53,13 +53,14 @@ export default connect(mapStateToProps, {setData})(class HomeScreen extends Reac
     console.log('item in home ',item);
     
     return (
-    <TouchableHighlight underlayColor='rgba(73,182,77,1,0.9)' onPress={() => this.onPressRecipe(item)}>
+    <TouchableOpacity underlayColor='rgba(73,182,77,1,0.9)' onPress={() => this.onPressRecipe(item)}>
       <View style={styles.container}>
         <Image style={styles.photo} source={{ uri: item.photo_url }} />
         <Text style={styles.title}>{item.title}</Text>
+        <Text style={{padding:0}}>{item.price} AZN</Text>
         <Text style={styles.category}>{getCategoryName(item.categoryId)}</Text>
       </View>
-    </TouchableHighlight>
+    </TouchableOpacity>
   )};
 
   render() {

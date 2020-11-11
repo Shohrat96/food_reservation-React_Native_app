@@ -7,6 +7,8 @@ import EditScreen from '../screens/Edit/EditScreen/EditScreen';
 import HeaderBtnSave from '../components/HeaderBtnSave/HeaderBtnSave';
 import EditCategoriesScreen from '../screens/Edit/EditCategories/EditCategoriesScreen';
 import EditSingleCategoryScreen from '../screens/Edit/EditCategories/EditSingleCategory/EditSingleCategoryScreen';
+import CreateNewProduct from '../screens/Edit/EditScreen/CreateNewProduct/CreateNewProduct';
+
 
 const EditStack=({navigation})=>{
     const {Navigator, Screen}=createStackNavigator();
@@ -17,6 +19,7 @@ const EditStack=({navigation})=>{
                 <Screen name="EditScreenSingle" component={SingleProductEditScreen}/>
                 <Screen name="EditCategoriesScreen" component={EditCategoriesScreen}/>
                 <Screen name="EditSingleCategoryScreen" component={EditSingleCategoryScreen}/>
+                <Screen name="CreateNewProduct" component={CreateNewProduct}/>
 
             </Navigator>
     )

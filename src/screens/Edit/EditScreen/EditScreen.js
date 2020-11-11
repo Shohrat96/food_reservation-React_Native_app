@@ -40,17 +40,18 @@ const EditScreen = connect(mapStateToProps)((props)=>{
     const renderProducts = ({ item }) => {
       item=Object.values(item)[0];
       return (
-      <TouchableHighlight underlayColor='rgba(73,182,77,1,0.9)' onPress={() => productEditHandler(item)}>
+      <TouchableOpacity underlayColor='rgba(73,182,77,1,0.9)' onPress={() => productEditHandler(item)}>
         <View style={styles.container}>
           <Image style={styles.photo} source={{ uri: item.photo_url }} />
           <Text style={styles.title}>{item.title}</Text>
+          <Text style={{padding:0}}>{item.price} AZN</Text>
           <Text style={styles.category}>{getCategoryName(item.categoryId)}</Text>
         </View>
-      </TouchableHighlight>
+      </TouchableOpacity>
     )};
 
     return (
-        <View>
+        <View style={{flex:1}}>
             <TouchableOpacity style={
               {
                alignItems:'flex-end',
@@ -66,6 +67,29 @@ const EditScreen = connect(mapStateToProps)((props)=>{
                     Kateqoriyalara keçid
                 </Text>
             </TouchableOpacity>
+            <View style={{alignItems:'center', padding:10, borderBottomColor:'#2cd18a', borderBottomWidth:1}}>
+              <TouchableOpacity 
+              onPress={()=>navigation.navigate('CreateNewProduct')}
+              style={{
+                justifyContent:'center',
+                alignItems:'center',
+                width:50,
+                height:50,
+                borderWidth:1,
+                borderRadius:25,
+                borderColor:'#2cd18a',
+                backgroundColor:'#2cd18a'
+              }}>
+                <Text style={{
+                  fontSize:30,
+                  color:'white',
+                  fontWeight:'bold'
+                }}>
+                  +
+                </Text>
+              </TouchableOpacity>
+            </View>
+            
             <FlatList
             vertical
             showsVerticalScrollIndicator={true}
@@ -74,7 +98,6 @@ const EditScreen = connect(mapStateToProps)((props)=>{
             renderItem={renderProducts}
             keyExtractor={item => `${item.recipeId}`}
             />
-            <Button title='create product' onPress={()=>createNewProduct()}/>
       </View>
     )
 })
