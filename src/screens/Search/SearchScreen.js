@@ -52,7 +52,7 @@ export default class SearchScreen extends React.Component {
           placeholder="Search"
           value={params.data}
         />
-      )
+      ),
     };
   };
 

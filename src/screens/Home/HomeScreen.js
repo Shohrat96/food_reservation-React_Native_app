@@ -30,7 +30,7 @@ export default connect(mapStateToProps, {setData})(class HomeScreen extends Reac
           navigation.openDrawer();
         }}
       />
-    )
+    ),
   });
 
   constructor(props) {

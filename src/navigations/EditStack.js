@@ -27,5 +27,5 @@ const EditStack=({navigation})=>{
 export default EditStack
 
 EditStack.navigationOptions=({navigation})=>({
-    header:null
+    
 })

@@ -2,7 +2,6 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   btnContainer: {
-    flex: 1,
     alignItems: 'center',
     borderRadius: 180,
     padding: 8,

@@ -18,6 +18,7 @@ import EditScreen from '../screens/Edit/EditScreen/EditScreen';
 import SingleProductEditScreen from '../screens/singleProductEdit/SingleProductEditScreen';
 import EditStack from './EditStack';
 import { Notifications } from 'expo';
+import Constants from 'expo-constants';
 
 
 let notificationReceived=null;
@@ -48,14 +49,20 @@ const MainNavigator = createStackNavigator(
     initialRouteName: 'Home',
     //headerMode: 'float',
     
-    defaulfNavigationOptions: ({ navigation }) => ({
+    defaultNavigationOptions: ({ navigation }) => ({
       
       headerTitleStyle: {
         fontWeight: 'bold',
-        textAlign: 'center',
-        flex: 1,
+        textAlign: 'left',
       },
-    })
+      headerStyle:{
+        alignItems:'center',
+        justifyContent:'center',
+      },
+      headerStatusBarHeight:0
+
+    }),
+    
   }
 ); 
 

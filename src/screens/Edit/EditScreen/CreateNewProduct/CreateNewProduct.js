@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import {View, Image, Text, StyleSheet} from 'react-native';
+import {View, Image, Text, StyleSheet, Dimensions} from 'react-native';
 import ImageEditOverlay from '../../../../components/ImageEditOverlay/ImageEditOverlay';
+
 const { width: viewportWidth } = Dimensions.get('window');
 
 const defaultImageUri=`https://firebasestorage.googleapis.com/v0/b/restaurant-reservation-33a36.appspot.com/o/default_avatar%2FWebp.net-compress-image.jpg?alt=media&token=de5b3fcb-09c0-4bb1-bdeb-5df6237d3b58`

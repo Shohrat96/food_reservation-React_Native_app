@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { convertObToArr, getCategoryName } from '../../../data/MockDataAPI';
 import styles from './styles';
 import BackButton from '../../../components/BackButton/BackButton';
+import { NavigationActions } from 'react-navigation';
 
 
 const mapStateToProps=(state)=>({
@@ -11,6 +12,8 @@ const mapStateToProps=(state)=>({
     categories:state.categories
 })
 const EditScreen = connect(mapStateToProps)((props)=>{
+
+    
     console.log('props in Edit page: ',props);
     const {navigation}=props;
     const productEditHandler=(product)=>{
@@ -24,19 +27,22 @@ const EditScreen = connect(mapStateToProps)((props)=>{
   //         title:'Edit'
   //     })
   // },[]);
-  useEffect(()=>{
-        navigation.setOptions({
-            headerLeft:()=>{
-                return (
-                    <BackButton
-                    onPress={()=>console.log(navigation)}
-                />
-                )
-            },
-            title:'Edit'
-        })
-    }, []);
-
+ 
+  // useEffect(()=>{
+  //       navigation.setOptions({
+  //           headerLeft:()=>{
+  //               return (
+  //                   <BackButton
+  //                   onPress={()=> console.log(navigation.dangerouslyGetParent())}
+  //               />
+  //               )
+  //           },
+  //           title:'Edit'
+  //       })
+  //   }, []);
+    navigation.setOptions({
+      headerShown:false
+    })
     const renderProducts = ({ item }) => {
       item=Object.values(item)[0];
       return (
