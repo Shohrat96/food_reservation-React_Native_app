@@ -8,6 +8,7 @@ import { convertObToArr, getCategoryName, setAutoId } from '../../data/MockDataA
 import { connect } from 'react-redux';
 import { setData } from '../../store/shop/products';
 import App from '../../API/firebaseConfig';
+import PushNotificationManager from '../../../PushNotificationManager';
 
 
 const mapStateToProps=(state)=>{
@@ -66,6 +67,9 @@ export default connect(mapStateToProps, {setData})(class HomeScreen extends Reac
   render() {
     console.log('productsKeyInHome in home: ',this.props.productsKeyInHome);
     return (
+      <PushNotificationManager navigation={this.props.navigation}>
+              {
+                data =>
       <View>
         <FlatList
           vertical
@@ -76,6 +80,8 @@ export default connect(mapStateToProps, {setData})(class HomeScreen extends Reac
           keyExtractor={item => `${item.recipeId}`}
         />
       </View>
+  }
+  </PushNotificationManager>
     );
   }
 })

@@ -1,4 +1,4 @@
-import { WorldAlignment } from 'expo/build/AR';
+// import { WorldAlignment } from 'expo/build/AR';
 import React from 'react';
 import {View, Text, ActivityIndicator, TouchableOpacity, Image, StyleSheet} from 'react-native';
 import SavePic from '../../../assets/icons/save.png';

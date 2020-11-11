@@ -40,7 +40,7 @@ async function sendPushNotification(expoPushToken,order) {
     sound: 'default',
     title: 'Original Title',
     body: messageTemplate,
-    data: {message:messageTemplate},
+    data: {message:messageTemplate,route:"SingleOrder",channelId:"orders",orderedItem:{"title":title},contactInfo:{"dateOnly":dateOnly,"timeOnly":timeOnly}},
   };
 
   await fetch('https://exp.host/--/api/v2/push/send', {
@@ -55,40 +55,6 @@ async function sendPushNotification(expoPushToken,order) {
 }
 
 
-const registerForPushNotificationsAsync = async (order) => {
-
-  if (Constants.isDevice) {
-    const { status: existingStatus } = await Permissions.getAsync(
-      Permissions.NOTIFICATIONS
-    );
-    let finalStatus = existingStatus;
-    if (existingStatus !== 'granted') {
-      const { status } = await Permissions.askAsync(
-        Permissions.NOTIFICATIONS
-      );
-      finalStatus = status;
-    }
-    if (finalStatus !== 'granted') {
-      alert('Failed to get push token for push notification!');
-      return;
-    }
-    let token = await Notifications.getExpoPushTokenAsync();
-    updates={};
-    updates['/expoToken']=token;
-    App.db.ref('users').child('6GX8plM7xQUdikbbIi3bpsGqDUI3').update(updates)
-    sendPushNotification(token, order)
-  } else {
-    alert('Must use physical device for Push Notifications');
-  }
-  if (Platform.OS === 'android') {
-    Notifications.createChannelAndroidAsync('default', {
-      name: 'default',
-      sound: 'true',
-      priority: 'max',
-      vibrate: [0, 250, 250, 250],
-    });
-  }
-};
 
 
 
@@ -136,7 +102,7 @@ export default class RecipeScreen extends React.Component {
     this.setState({notification:notification})
   }
   componentDidMount(){
-    this.listener=Notifications.addListener(this.listenHandler)
+    // this.listener=Notifications.addListener(this.listenHandler)
   }
   /*componentWillUnmount(){
 
@@ -160,7 +126,12 @@ export default class RecipeScreen extends React.Component {
       orderSuccess:true,
       orderStart:false
     });
-    registerForPushNotificationsAsync(order);
+    // registerForPushNotificationsAsync(order);
+    let user =  App.db.ref('users/6GX8plM7xQUdikbbIi3bpsGqDUI3').once('value').then(function(snapshot) {
+      var token = (snapshot.val() && snapshot.val().expoToken);
+      // ...
+      sendPushNotification(token, order)
+    });
   };
   orderFailed=()=>{
     this.setState({
