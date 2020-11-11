@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, ScrollView, Text, View, TouchableHighlight, Image } from 'react-native';
+import { FlatList, ScrollView, Text, View, TouchableHighlight, Image, BackHandler } from 'react-native';
 import styles from './styles';
 import { recipes } from '../../data/dataArrays';
 import MenuImage from '../../components/MenuImage/MenuImage';
@@ -60,7 +60,7 @@ export default connect(mapStateToProps,{setOrders}) (class OrdersScreen extends 
       
     //   console.log('state inside fetch : ',this.state.data)
     // })
-
+    
     this.props.setOrders()
   }
 
