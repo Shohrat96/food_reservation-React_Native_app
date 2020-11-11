@@ -45,7 +45,7 @@ const MainNavigator = createStackNavigator(
     Edit:EditStack,
   },
   {
-    initialRouteName: notificationReceived? 'Orders': 'Home',
+    initialRouteName: 'Home',
     //headerMode: 'float',
     
     defaulfNavigationOptions: ({ navigation }) => ({

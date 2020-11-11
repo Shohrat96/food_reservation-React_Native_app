@@ -6,32 +6,7 @@ import * as Notifications from 'expo-notifications';
 import { withNavigation } from 'react-navigation';
 import App from './src/API/firebaseConfig';
 
-// this was copied from RecipeScreen.js ----  remove it when publishing app
-async function sendPushNotification(expoPushToken,order) {
-  const {title, dateOnly, timeOnly, number, name, surname, countFood, countPerson}=order;
-  const messageTemplate=`
-    ***New Order Received***
-    Sifariş: ${title},
-    Tarix: ${dateOnly},
-    Zaman: ${timeOnly}
-  `
-  const message = {
-    to: expoPushToken,
-    sound: 'default',
-    title: 'Original Title',
-    body: messageTemplate,
-    data: {"message":messageTemplate,"route":"SingleOrder","channelId":"orders","orderedItem":{"title":"New Order Received"},"contactInfo":{"dateOnly":"10 Nov 2020","timeOnly":"12:35"}}
-  };
-  await fetch('https://exp.host/--/api/v2/push/send', {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Accept-encoding': 'gzip, deflate',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(message),
-  });
-}
+
 
 // Top level Component to handle push notification 
 /*
@@ -51,9 +26,12 @@ async function sendPushNotification(expoPushToken,order) {
     // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
     responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
       const data = response.notification,route=data.request.content.data.route
-      setTimeout(()=>props.navigation.navigate(route, {
+      // setTimeout(()=>props.navigation.navigate(route, {
+      //   item:data.request.content.data
+      // }),200)
+      props.navigation.navigate(route, {
         item:data.request.content.data
-      }),200)
+      })
     });
 
     tokenListener.current = Notifications.addPushTokenListener((data)=>setToken(data.data));
@@ -89,8 +67,6 @@ async function registerForPushNotificationsAsync() {
     updates['/expoToken']=token;
     App.db.ref('users').child('6GX8plM7xQUdikbbIi3bpsGqDUI3').update(updates)
 
-    // only use this for debuging
-    sendPushNotification(token, {ordtitle:"Test Notification", dateOnly:"something", timeOnly:"something here", number:"0544916362", name:"Augustine", surname:"Addey", countFood:2, countPersoner:2})
   } else {
     alert('Must use physical device for Push Notifications');
   }
