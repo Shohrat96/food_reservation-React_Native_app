@@ -1,20 +1,14 @@
-import React, { useEffect, useLayoutEffect } from 'react';
-import {View, Text, Image, Button, TouchableHighlight, TouchableOpacity,FlatList, ScrollView, Alert} from 'react-native';
+import React from 'react';
+import {View, Text, Image, TouchableOpacity,FlatList} from 'react-native';
 import { connect } from 'react-redux';
 import { convertObToArr, getCategoryName } from '../../../data/MockDataAPI';
 import styles from './styles';
-import BackButton from '../../../components/BackButton/BackButton';
-import { NavigationActions } from 'react-navigation';
-
 
 const mapStateToProps=(state)=>({
     productsKeyInEdit:state.products,
     categories:state.categories
 })
 const EditScreen = connect(mapStateToProps)((props)=>{
-
-    
-    console.log('props in Edit page: ',props);
     const {navigation}=props;
     const productEditHandler=(product)=>{
       props.navigation.navigate('EditScreenSingle', { product });
@@ -37,12 +31,16 @@ const EditScreen = connect(mapStateToProps)((props)=>{
   //               />
   //               )
   //           },
-  //           title:'Edit'
+  //           title:'Edit',
   //       })
   //   }, []);
-    navigation.setOptions({
-      headerShown:false
-    })
+    // navigation.setOptions({
+    //   headerShown:true,
+    //   title:'Edit',
+    //   headerLeft:()=><HeaderBackButton
+    //                       onPress={()=> props.navigation.goBack()}
+    //                   />                
+    // })
     const renderProducts = ({ item }) => {
       item=Object.values(item)[0];
       return (

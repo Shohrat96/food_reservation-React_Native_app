@@ -14,11 +14,8 @@ import OrdersScreen from '../screens/Orders/OrdersScreen';
 import SingleOrder from '../screens/SingleOrder/SingleOrder';
 import OrderDetailsScreen from '../screens/OrderDetailsScreen/OrderDetailsScreen';
 import RegisterScreen from '../screens/Auth/RegisterScreen'
-import EditScreen from '../screens/Edit/EditScreen/EditScreen';
-import SingleProductEditScreen from '../screens/singleProductEdit/SingleProductEditScreen';
 import EditStack from './EditStack';
 import { Notifications } from 'expo';
-import Constants from 'expo-constants';
 
 
 let notificationReceived=null;
@@ -43,7 +40,7 @@ const MainNavigator = createStackNavigator(
     })},
     OrderDetails:OrderDetailsScreen,
     Register:RegisterScreen,
-    Edit:EditStack,
+    Edit:{screen:EditStack,navigationOptions: ({ navigation }) => ({header:null,headerShown: false})},
   },
   {
     initialRouteName: 'Home',
