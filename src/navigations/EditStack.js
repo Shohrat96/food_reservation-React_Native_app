@@ -8,6 +8,7 @@ import HeaderBtnSave from '../components/HeaderBtnSave/HeaderBtnSave';
 import EditCategoriesScreen from '../screens/Edit/EditCategories/EditCategoriesScreen';
 import EditSingleCategoryScreen from '../screens/Edit/EditCategories/EditSingleCategory/EditSingleCategoryScreen';
 import CreateNewProduct from '../screens/Edit/EditScreen/CreateNewProduct/CreateNewProduct';
+import { HeaderBackButton } from 'react-navigation-stack';
 
 
 const EditStack=({navigation})=>{
@@ -15,7 +16,13 @@ const EditStack=({navigation})=>{
     
     return (
             <Navigator>
-                <Screen name="EditScreen" component={EditScreen}/>
+                <Screen name="EditScreen" component={EditScreen} options={({ navigation1, route }) => ({
+                    headerShown: true,
+                    title: 'Edit',
+                    headerLeft: (props) => <HeaderBackButton
+                        onPress={() => navigation.goBack()}
+                    />
+                })}/>
                 <Screen name="EditScreenSingle" component={SingleProductEditScreen}/>
                 <Screen name="EditCategoriesScreen" component={EditCategoriesScreen}/>
                 <Screen name="EditSingleCategoryScreen" component={EditSingleCategoryScreen}/>

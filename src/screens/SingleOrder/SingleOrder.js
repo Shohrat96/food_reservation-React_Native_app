@@ -1,10 +1,10 @@
-import React, { useState,useEffect, useRef } from 'react';
-import {Text, View, TouchableOpacity, Alert, BackHandler} from 'react-native';
+import React, {useEffect, useRef } from 'react';
+import {Text, View, TouchableOpacity, BackHandler} from 'react-native';
 import styles from './styles'
 
-const SingleOrder=({item,route,navigation,onPress})=>{
+const SingleOrder=({item,navigation,onPress})=>{
     const backHandler = useRef(), {contactInfo, orderedItem}=item||navigation.getParam("item");
-    console.log('item in single oredr,',contactInfo,orderedItem)
+
     function onBackButtonPressAndroid () {
         const navigator = {...navigation}
        if(navigator.navigate){
