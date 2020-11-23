@@ -51,7 +51,6 @@ export default connect(mapStateToProps, {setData})(class HomeScreen extends Reac
 
   renderProducts = ({ item }) => {
     item=Object.values(item)[0];
-    console.log('item in home ',item);
     
     return (
     <TouchableOpacity underlayColor='rgba(73,182,77,1,0.9)' onPress={() => this.onPressRecipe(item)}>
@@ -65,23 +64,22 @@ export default connect(mapStateToProps, {setData})(class HomeScreen extends Reac
   )};
 
   render() {
-    console.log('productsKeyInHome in home: ',this.props.productsKeyInHome);
     return (
-      <PushNotificationManager navigation={this.props.navigation}>
-              {
-                data =>
+      // <PushNotificationManager navigation={this.props.navigation}>
+      //         {
+      //           data =>
       <View>
         <FlatList
           vertical
           showsVerticalScrollIndicator={true}
           numColumns={2}
-          data={ convertObToArr(this.props.productsKeyInHome)}
+          data={this.props.productsKeyInHome&&convertObToArr(this.props.productsKeyInHome)}
           renderItem={this.renderProducts}
           keyExtractor={item => `${item.recipeId}`}
         />
       </View>
-  }
-  </PushNotificationManager>
+  // }
+  // </PushNotificationManager>
     );
   }
 })

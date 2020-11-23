@@ -63,7 +63,6 @@ export default reducer
 export const setCategories = () => async (
   dispatch
 ) => {
-    console.log('inside set action');
   try {
     fetch('https://restaurant-reservation-33a36.firebaseio.com/categories.json',
     {
@@ -85,7 +84,6 @@ export const setCategories = () => async (
 //UPDATE CATEGORY
 
 export const updateCategory = (data) => async (dispatch)=> {
-  console.log('inside update method',data) //) //
   try {
     
     await App.db.ref('categories').child(data.id).update(data);

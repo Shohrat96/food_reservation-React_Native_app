@@ -21,7 +21,6 @@ export default class RecipesListScreen extends React.Component {
   }
 
   onPressRecipe = item => {
-    console.log('item in onpress recipe: ',item)
     this.props.navigation.navigate('Recipe', { item });
   };
 

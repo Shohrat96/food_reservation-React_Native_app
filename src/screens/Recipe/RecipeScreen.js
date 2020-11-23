@@ -27,7 +27,43 @@ import Constants from 'expo-constants';
 
 const { width: viewportWidth } = Dimensions.get('window');
 
-async function sendPushNotification(expoPushToken,order) {
+async function sendPushNotification(token,order) {
+  // let adminsRef= App.db.ref('users').child('admins');
+  // let tokensArr=await adminsRef.once('value').then(
+  //               (data)=>{
+  //                 Object.values(data.toJSON()).forEach(admin=>{
+  //                   if (admin.expoToken){
+  //                     Object.values(admin.expoToken).forEach(token=>{
+  //                       tokensArr.push(token);
+  //                     })
+  //                   }
+  //                 })                  
+  //               }
+  //             )
+
+  App.db.ref('users/admins').once('value',snapshot=>{
+    let toArr=[];
+    Alert.alert(JSON.stringify(Object.values((Object.values(snapshot.val())[0].expoToken)) ))
+    Object.values((Object.values(snapshot.val())[0].expoToken)).forEach(token=>{
+      toArr.push({
+        to: token,
+        sound: 'default',
+        title: 'Original Title',
+        body: messageTemplate,
+        data: {message:messageTemplate,route:"SingleOrder",channelId:"orders",orderedItem:{"title":title},contactInfo:{"dateOnly":dateOnly,"timeOnly":timeOnly}},
+       })
+     });
+
+    fetch('https://exp.host/--/api/v2/push/send', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Accept-encoding': 'gzip, deflate',
+      'Content-Type': 'application/json',
+    },
+    body:JSON.stringify(toArr)
+  });
+  })
   const {title, dateOnly, timeOnly, number, name, surname, countFood, countPerson}=order;
   const messageTemplate=`
     ***New Order Received***
@@ -35,23 +71,16 @@ async function sendPushNotification(expoPushToken,order) {
     Tarix: ${dateOnly},
     Zaman: ${timeOnly}
   `
-  const message = {
-    to: expoPushToken,
-    sound: 'default',
-    title: 'Original Title',
-    body: messageTemplate,
-    data: {message:messageTemplate,route:"SingleOrder",channelId:"orders",orderedItem:{"title":title},contactInfo:{"dateOnly":dateOnly,"timeOnly":timeOnly}},
-  };
+  // const message = {
+  //   to: expoPushToken,
+  //   sound: 'default',
+  //   title: 'Original Title',
+  //   body: messageTemplate,
+  //   data: {message:messageTemplate,route:"SingleOrder",channelId:"orders",orderedItem:{"title":title},contactInfo:{"dateOnly":dateOnly,"timeOnly":timeOnly}},
+  // };
 
-  await fetch('https://exp.host/--/api/v2/push/send', {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Accept-encoding': 'gzip, deflate',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(message),
-  });
+  
+  
 }
 
 
@@ -196,9 +225,9 @@ export default class RecipeScreen extends React.Component {
               inactiveSlideOpacity={1}
               firstItem={0}
               loop={true}
-              autoplay={true}
-              autoplayDelay={500}
-              autoplayInterval={2000}
+              autoplay={false}
+              //autoplayDelay={500}
+              //autoplayInterval={2000}
               onSnapToItem={index => this.setState({ activeSlide: index })}
             />
             <Pagination

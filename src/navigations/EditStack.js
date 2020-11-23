@@ -15,7 +15,9 @@ const EditStack=({navigation})=>{
     const {Navigator, Screen}=createStackNavigator();
     
     return (
-            <Navigator>
+            <Navigator screenOptions={{
+                headerStatusBarHeight:0,
+            }}>
                 <Screen name="EditScreen" component={EditScreen} options={({ navigation1, route }) => ({
                     headerShown: true,
                     title: 'Edit',
@@ -26,13 +28,10 @@ const EditStack=({navigation})=>{
                 <Screen name="EditScreenSingle" component={SingleProductEditScreen}/>
                 <Screen name="EditCategoriesScreen" component={EditCategoriesScreen}/>
                 <Screen name="EditSingleCategoryScreen" component={EditSingleCategoryScreen}/>
-                <Screen name="CreateNewProduct" component={CreateNewProduct}/>
+                {/* <Screen name="CreateNewProduct" component={CreateNewProduct}/> */}
 
             </Navigator>
     )
 }
 export default EditStack
 
-EditStack.navigationOptions=({navigation})=>({
-    
-})

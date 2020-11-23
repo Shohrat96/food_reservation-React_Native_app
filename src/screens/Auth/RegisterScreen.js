@@ -4,7 +4,7 @@ import App from '../../API/firebaseConfig';
 import { sign } from '../../store/Auth';
 import { connect } from "react-redux";
 import { auth } from 'firebase';
-
+import { registerForPushNotificationsAsync } from '../../../PushNotificationManager';
 
 function mapStateToProps(state){
   return {
@@ -12,7 +12,7 @@ function mapStateToProps(state){
   }
 }
 
-const RegisterScreen= connect(mapStateToProps, {sign}) ((props)=>{
+const RegisterScreen= React.memo(connect(mapStateToProps, {sign}) ((props)=>{
     const {sign,navigation}=props;
     console.log('props in shop: ',props);
     const [credentials,setCredentials]=useState({
@@ -21,13 +21,15 @@ const RegisterScreen= connect(mapStateToProps, {sign}) ((props)=>{
         repeatPass:''
       });
       const [curState,setCurState]=useState('login');
-      const signUpHandler=(credentials)=>{
+      const signUpHandler= async (credentials)=>{
         const {email, password, repeatPass}=credentials;
         if (curState==='login'){
           try {
-            if (email.trim().length && password.trim().length){
-             const login= sign(email,password, 'test',true); 
-              
+            if (email.trim().length && password.trim().length){            
+             const login= await sign(email,password, 'test',true); 
+             console.log('uesr in aut hfdsknfkldsnfkldsnfkldsnfkn sl: ',props.auth)
+             registerForPushNotificationsAsync(props.auth.userID);
+
               console.log('login result: ',login)        
             } else {
               Alert.alert('Bütün xanaları doldurun...');
@@ -43,7 +45,7 @@ const RegisterScreen= connect(mapStateToProps, {sign}) ((props)=>{
               return field.trim().length>0;
             }))
             if (check){
-              if (credentials.repeatPass===credentials.password){
+              if (repeatPass===password){
                 sign(email,password, 'test',false);          
               } else {
                 console.log("password doesn't match...")
@@ -63,9 +65,10 @@ const RegisterScreen= connect(mapStateToProps, {sign}) ((props)=>{
       console.log('props in register: ',props);
       useEffect(()=>{
         if (props.auth.userID){
-          navigation.navigate('Home')
+
+          navigation.navigate('Home');
         }
-      },[props.auth])
+      },[props.auth?.userID])
       return (
         
          <View style={styles.container}>
@@ -120,7 +123,7 @@ const RegisterScreen= connect(mapStateToProps, {sign}) ((props)=>{
            </View>
          </View>
       );
-})
+}))
 
 
 

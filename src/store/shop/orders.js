@@ -53,7 +53,6 @@ const initialState=[
   function reducer(state = initialState, { type, payload }) {
     switch (type) {
         case SET_ORDERS:
-            console.log('payload',payload)
             return payload
         default:
           return state
@@ -66,7 +65,6 @@ const initialState=[
     export const setOrders = () => async (
       dispatch
     ) => {
-        console.log('inside setOrder method');
       try {
         fetch('https://restaurant-reservation-33a36.firebaseio.com/orders.json',
         {

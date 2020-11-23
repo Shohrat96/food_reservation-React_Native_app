@@ -1,18 +1,25 @@
-import React from 'react';
-import {View, Text, Image, TouchableOpacity,FlatList} from 'react-native';
+import React, { useState } from 'react';
+import {View, Text, Image, TouchableOpacity,FlatList, Alert, ImageBackground} from 'react-native';
 import { connect } from 'react-redux';
 import { convertObToArr, getCategoryName } from '../../../data/MockDataAPI';
 import styles from './styles';
+import {deleteProduct} from '../../../store/shop/products'
+import ModalComponent from '../../../components/ModalComponent/ModalComponent';
+
 
 const mapStateToProps=(state)=>({
     productsKeyInEdit:state.products,
     categories:state.categories
 })
-const EditScreen = connect(mapStateToProps)((props)=>{
-    const {navigation}=props;
+const EditScreen = connect(mapStateToProps, {deleteProduct})((props)=>{
+    const {navigation, deleteProduct}=props;
     const productEditHandler=(product)=>{
       props.navigation.navigate('EditScreenSingle', { product });
     };
+    const [modalShow,setModalShow]=useState({
+      show:false,
+      item:null
+    })
     
 
   //   useEffect(()=>{
@@ -46,7 +53,17 @@ const EditScreen = connect(mapStateToProps)((props)=>{
       return (
       <TouchableOpacity underlayColor='rgba(73,182,77,1,0.9)' onPress={() => productEditHandler(item)}>
         <View style={styles.container}>
-          <Image style={styles.photo} source={{ uri: item.photo_url }} />
+            <ImageBackground style={styles.photo} source={{ uri: item.photo_url }}>
+              <TouchableOpacity onPress={()=>setModalShow(prevState=>({
+                ...prevState,
+                item:item.id,
+                show:true
+              }))}>
+                <Text style={{alignSelf:'flex-end', fontSize:25,padding:10, paddingVertical:0, backgroundColor:'white'}}>
+                  X
+                </Text>
+            </TouchableOpacity>
+            </ImageBackground>
           <Text style={styles.title}>{item.title}</Text>
           <Text style={{padding:0}}>{item.price} AZN</Text>
           <Text style={styles.category}>{getCategoryName(item.categoryId)}</Text>
@@ -56,6 +73,27 @@ const EditScreen = connect(mapStateToProps)((props)=>{
 
     return (
         <View style={{flex:1}}>
+          {
+            modalShow.show && <ModalComponent
+            unmountModal={()=>setModalShow(prevState=>({
+              ...prevState,
+              show:false,
+              item:null
+            }))}
+            declineTitle={'Geri dön'}
+            acceptTitle={'Sil'}
+            declineEvent={()=>setModalShow(prevState=>({
+              ...prevState,
+              show:false,
+              item:null
+            }))}
+            acceptEvent={()=>{deleteProduct(modalShow.item); setModalShow(prevState=>({
+              ...prevState,
+              show:false,
+              item:null
+            }))}}
+            />
+          }
             <TouchableOpacity style={
               {
                alignItems:'flex-end',
@@ -73,7 +111,7 @@ const EditScreen = connect(mapStateToProps)((props)=>{
             </TouchableOpacity>
             <View style={{alignItems:'center', padding:10, borderBottomColor:'#2cd18a', borderBottomWidth:1}}>
               <TouchableOpacity 
-              onPress={()=>navigation.navigate('CreateNewProduct')}
+              onPress={()=>navigation.navigate('EditScreenSingle',{mode:'create'})}
               style={{
                 justifyContent:'center',
                 alignItems:'center',

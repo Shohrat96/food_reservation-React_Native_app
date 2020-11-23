@@ -4,7 +4,7 @@ import {
   Text,
   View,
   Image,
-  TouchableHighlight, Button
+  TouchableHighlight, Button, TouchableOpacity
 } from 'react-native';
 import styles from './styles';
 import { categories } from '../../data/dataArrays';
@@ -30,7 +30,6 @@ export default connect(mapStateToProps,{setCategories}) (class CategoriesScreen 
     App.db.ref(`categories/`).push(category);
   }
   onPressCategory = item => {
-    console.log('item in onpress: ',item)
     const title = item.name;
     const category = item;
     this.props.navigation.navigate('RecipesList', { category, title });
@@ -38,7 +37,6 @@ export default connect(mapStateToProps,{setCategories}) (class CategoriesScreen 
   
   renderCategory = ({ item }) => {
     item=Object.values(item)[0];
-    console.log('item in categ',item)
 
     return (
     <TouchableHighlight underlayColor='rgba(73,182,77,1,0.9)' onPress={() => this.onPressCategory(item)}>
@@ -57,12 +55,11 @@ export default connect(mapStateToProps,{setCategories}) (class CategoriesScreen 
   render() {
     
     
-    console.log('props in categories: ',convertObToArr(this.props.categories))
     return (
       <View>
         
         <FlatList
-          data={convertObToArr(this.props.categories)}
+          data={this.props.categories&&convertObToArr(this.props.categories)}
           renderItem={this.renderCategory}
           keyExtractor={item => `${item.id}`}
         />

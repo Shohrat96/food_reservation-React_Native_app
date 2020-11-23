@@ -1,10 +1,7 @@
 import React from 'react';
 import { FlatList, ScrollView, Text, View, TouchableHighlight, Image, BackHandler } from 'react-native';
 import styles from './styles';
-import { recipes } from '../../data/dataArrays';
 import MenuImage from '../../components/MenuImage/MenuImage';
-import DrawerActions from 'react-navigation';
-import { getCategoryName } from '../../data/MockDataAPI';
 import SingleOrder from '../SingleOrder/SingleOrder';
 import { connect } from 'react-redux';
 import { setOrders } from '../../store/shop/orders';
@@ -79,14 +76,13 @@ export default connect(mapStateToProps,{setOrders}) (class OrdersScreen extends 
     return resultArr
   };
   render() {
-    console.log('props in ordersscreen:',this.convertObToArr(this.props.orders))
     return (
       <>
       <View style={styles.container}>
         <FlatList
           vertical
           showsVerticalScrollIndicator={false}
-          data={this.convertObToArr(this.props.orders).reverse()}
+          data={this.props.orders &&this.convertObToArr(this.props.orders).reverse()}
           renderItem={this.renderOrders}
           keyExtractor={item => Object.keys(item)[0]}
         />

@@ -12,7 +12,7 @@ import { convertObToArr, getCategoryName } from '../../data/MockDataAPI';
 import SingleIngredientInput from '../../components/EditIngredients/SingleIngredientInput';
 import EditIngredients from '../../components/EditIngredients/EditIngredients';
 import CustomButton from '../../components/CustomButton/CustomButton';
-import { updateData } from '../../store/shop/products';
+import { updateData, addProduct } from '../../store/shop/products';
 import BackButton from '../../components/BackButton/BackButton';
 import HeaderBtnSave from '../../components/HeaderBtnSave/HeaderBtnSave';
 
@@ -21,7 +21,8 @@ const mapStateToProps=(state)=>({
 })
 
 const mapDispatchToProps=(dispatch)=>({
-    updateData:(data)=>updateData(dispatch, data)
+    updateData:(data)=>updateData(dispatch, data),
+    addProduct:(data)=>addProduct(dispatch,data)
 })
 
 const SAVE_BTN_OFF = 0;
@@ -44,8 +45,16 @@ async function uploadToFirebase(uri, path){
 
 const SingleProductEditScreen= connect(mapStateToProps, mapDispatchToProps)((props)=>{
     const {navigation}=props;
-    const product=props.route.params.product;
-
+    const product=props.route.params.product || {
+        title:'title',
+        categoryId:Object.values(props.categories)[0].id,
+        photoUrl:'',
+        photosArray:[""],
+        ingredients:[],
+        price:''
+    };
+    const mode=props.route.params.mode;
+    console.log('this props in edit screen: ',props)
     useEffect(()=>{
         navigation.setOptions({
             headerLeft:()=>{
@@ -60,7 +69,7 @@ const SingleProductEditScreen= connect(mapStateToProps, mapDispatchToProps)((pro
     }, []);
 
     const [photo, setPhoto]=useState(null);
-    const [photoModal,showPhotoModal]=useState({show:false,mode:null});
+    const [photoModal,  showPhotoModal]=useState({show:false,mode:null});
     const [arrIndex, setArrInd]=useState(null);
     const [selected, setSelected]=useState(null);
     const [productProperties, editProductProperties]=useState({
@@ -79,7 +88,7 @@ const SingleProductEditScreen= connect(mapStateToProps, mapDispatchToProps)((pro
     const onSavePress = async() => {
         setSaveBtnState(SAVE_BTN_LOADING);
         async function handlePhotoUpload(photoUrl){
-            if(photoUrl.substr(0, 7) === 'file://') {
+            if(photoUrl?.substr(0, 7) === 'file://') {
                 try {
                     
                     let ext = photoUrl.split('.').pop()
@@ -93,20 +102,23 @@ const SingleProductEditScreen= connect(mapStateToProps, mapDispatchToProps)((pro
             } else return photoUrl
         }
         let photosArray = [];
-        let photo_url = await handlePhotoUpload(productProperties.photoUrl);
-        for(let pInd in productProperties.photosArray){
-            photosArray.push(await handlePhotoUpload(productProperties.photosArray[pInd]))   
+
+        let photo_url =productProperties.photoUrl?await handlePhotoUpload(productProperties.photoUrl):'';
+        if(productProperties.photosArray.find(url=>url.length>0)){
+            for(let pInd in productProperties.photosArray){
+                photosArray.push(await handlePhotoUpload(productProperties.photosArray[pInd]))   
+            }
         }
 
         let dataToUpload = {
             ...productProperties,
             photosArray,
             photo_url,
-            id:product.id
+            id:product.id || null
         };
         delete dataToUpload.photoUrl;
 
-        await props.updateData(dataToUpload)
+        mode==='create'? await props.addProduct(dataToUpload): await props.updateData(dataToUpload);
         setSaveBtnState(SAVE_BTN_OFF);
     }
 
@@ -134,7 +146,8 @@ const SingleProductEditScreen= connect(mapStateToProps, mapDispatchToProps)((pro
                         ...prevState,
                         show:false,
                     }))} 
-                    showPhotoHandler={(uri)=>showPhotoHandler(uri)}/>
+                    showPhotoHandler={(uri)=>showPhotoHandler(uri)}
+                    />
                 )
             case 'addPhoto':
                 
@@ -185,7 +198,7 @@ const SingleProductEditScreen= connect(mapStateToProps, mapDispatchToProps)((pro
         }
         //add photo
         if (field==='photosArray' && action==='addPhoto'){
-
+            Alert.alert(value)
             editProductProperties(prevState=>({
                 ...prevState,
                 photosArray:[...prevState.photosArray, value]
@@ -245,7 +258,7 @@ const SingleProductEditScreen= connect(mapStateToProps, mapDispatchToProps)((pro
     const renderProductImage=({item, index})=>{
        
         return (
-            <TouchableOpacity onPress={(e)=>{console.log(e.target);setSelected('photosArray'); setArrInd(index);showPhotoModal(prevState=>({
+            <TouchableOpacity onPress={(e)=>{setSelected('photosArray'); setArrInd(index);showPhotoModal(prevState=>({
                 ...prevState,
                 show:true,
                 mode:'changePhoto'

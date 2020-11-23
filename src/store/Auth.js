@@ -25,7 +25,6 @@ const initialState = {
 export function reducer(state = initialState, { type, payload }) {
   switch (type) {
     case SET_AUTH_SUCCESS:
-      console.log('in reducer');
       return payload
     case SET_AUTH_LOGOUT:
       return {
@@ -62,16 +61,13 @@ export const setAuthLogout = () => ({
 export const sign = (email, password, username, isSignIn) => async (
   dispatch
 ) => {
-    console.log('inside sign method');
     var isAdmin=false;
     let uid=null;
   try {
     
     if (isSignIn) { 
-      console.log('is sign in');
       const userRef=await App.auth.signInWithEmailAndPassword(email, password);
       uid=userRef.user.uid;
-      console.log('user: ',uid)
       const admins = App.db.ref().child('users').child('admins');
       admins.once('value').then(
         (data)=>{
