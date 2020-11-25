@@ -42,7 +42,6 @@ async function sendPushNotification(token,order) {
 
   App.db.ref('users/admins').once('value',snapshot=>{
     let toArr=[];
-    Alert.alert(JSON.stringify(Object.values((Object.values(snapshot.val())[0].expoToken)) ))
     Object.values((Object.values(snapshot.val())[0].expoToken)).forEach(token=>{
       toArr.push({
         to: token,
@@ -70,13 +69,7 @@ async function sendPushNotification(token,order) {
     Tarix: ${dateOnly},
     Zaman: ${timeOnly}
   `
-  // const message = {
-  //   to: expoPushToken,
-  //   sound: 'default',
-  //   title: 'Original Title',
-  //   body: messageTemplate,
-  //   data: {message:messageTemplate,route:"SingleOrder",channelId:"orders",orderedItem:{"title":title},contactInfo:{"dateOnly":dateOnly,"timeOnly":timeOnly}},
-  // };
+ 
 
   
   
@@ -113,19 +106,7 @@ export default class RecipeScreen extends React.Component {
       notification:null
     };
   }
-  ingredientss=[
-    {name:'yag'},
-    {name:'duz'},
-    {name:'şəkər tozu'},
-    {name:'yag'},
-    {name:'dsfdsfsd fdsf duz'},
-    {name:'un'},
-    {name:'yag'},
-    {name:'dsadasd dasdas '},
-    {name:'udasdasdas dasdas n'},
-    {name:'yadasdasdg'},
-    {name:'ddasdasdasuz'},
-  ]
+  
   listenHandler=(notification)=>{
     this.setState({notification:notification})
   }
