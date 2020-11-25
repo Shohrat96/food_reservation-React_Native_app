@@ -31,16 +31,20 @@ const initialState={
           newState[action.payload.id] = action.payload;
           return newState;
         case DELETE_PRODUCT:
-          console.log('delete')
-          // const {payload, ...result}=state;
-          // console.log(result);
-          // return result
+          const stateCopy={...state};
+          delete stateCopy[`${action.payload}`];
+          state=stateCopy;
+          console.log('state after delete : ',stateCopy)
+          return state
+
 
       case ADD_PRODUCT:
         const {payload}=action;
+        const id=payload.id
+        console.log('payload in add prod: ',payload)
           return {
             ...state,
-            payload
+            [id]:{...payload}
           }
         default:
           return state
@@ -87,7 +91,7 @@ export const updateData = async(dispatch, product) => {
 export const deleteProduct =(productId)=>async(dispatch) => {
   try {
     await App.db.ref(`products`).child(`${productId}`).remove().then(
-      (res)=>dispatch({type: DELETE_PRODUCT, payload: productId}),
+      (res)=>dispatch({type: DELETE_PRODUCT, payload:productId}),
     );
     //dispatch({type: DELETE_PRODUCT, payload: productId});
     

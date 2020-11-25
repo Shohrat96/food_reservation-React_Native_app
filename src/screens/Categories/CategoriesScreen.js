@@ -48,10 +48,7 @@ export default connect(mapStateToProps,{setCategories}) (class CategoriesScreen 
     </TouchableHighlight>
   );}
 
-  componentDidMount(){
-    this.props.setCategories();
-    //setAutoId('categories');
-  }
+  
   render() {
     
     

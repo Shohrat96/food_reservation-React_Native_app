@@ -45,16 +45,18 @@ async function uploadToFirebase(uri, path){
 
 const SingleProductEditScreen= connect(mapStateToProps, mapDispatchToProps)((props)=>{
     const {navigation}=props;
-    const product=props.route.params.product || {
-        title:'title',
-        categoryId:Object.values(props.categories)[0].id,
-        photoUrl:'',
-        photosArray:[""],
-        ingredients:[],
-        price:''
-    };
+    let product=props.route.params.product;
     const mode=props.route.params.mode;
-    console.log('this props in edit screen: ',props)
+    if (mode==='create'){
+        product={
+            title:'title',
+            categoryId:Object.values(props.categories)[0].id,
+            photoUrl:'',
+            photosArray:[""],
+            ingredients:[],
+            price:''
+        };
+    }
     useEffect(()=>{
         navigation.setOptions({
             headerLeft:()=>{
@@ -104,11 +106,11 @@ const SingleProductEditScreen= connect(mapStateToProps, mapDispatchToProps)((pro
         let photosArray = [];
 
         let photo_url =productProperties.photoUrl?await handlePhotoUpload(productProperties.photoUrl):'';
-        if(productProperties.photosArray.find(url=>url.length>0)){
+        
             for(let pInd in productProperties.photosArray){
                 photosArray.push(await handlePhotoUpload(productProperties.photosArray[pInd]))   
             }
-        }
+        
 
         let dataToUpload = {
             ...productProperties,

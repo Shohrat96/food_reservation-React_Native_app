@@ -22,32 +22,6 @@ const EditScreen = connect(mapStateToProps, {deleteProduct})((props)=>{
     })
     
 
-  //   useEffect(()=>{
-  //     navigation.setOptions({
-          
-  //         title:'Edit'
-  //     })
-  // },[]);
- 
-  // useEffect(()=>{
-  //       navigation.setOptions({
-  //           headerLeft:()=>{
-  //               return (
-  //                   <BackButton
-  //                   onPress={()=> console.log(navigation.dangerouslyGetParent())}
-  //               />
-  //               )
-  //           },
-  //           title:'Edit',
-  //       })
-  //   }, []);
-    // navigation.setOptions({
-    //   headerShown:true,
-    //   title:'Edit',
-    //   headerLeft:()=><HeaderBackButton
-    //                       onPress={()=> props.navigation.goBack()}
-    //                   />                
-    // })
     const renderProducts = ({ item }) => {
       item=Object.values(item)[0];
       return (
@@ -78,19 +52,19 @@ const EditScreen = connect(mapStateToProps, {deleteProduct})((props)=>{
             unmountModal={()=>setModalShow(prevState=>({
               ...prevState,
               show:false,
-              item:null
+              //item:null
             }))}
             declineTitle={'Geri dön'}
             acceptTitle={'Sil'}
             declineEvent={()=>setModalShow(prevState=>({
               ...prevState,
               show:false,
-              item:null
+              //item:null
             }))}
             acceptEvent={()=>{deleteProduct(modalShow.item); setModalShow(prevState=>({
               ...prevState,
               show:false,
-              item:null
+              //item:null
             }))}}
             />
           }

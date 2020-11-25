@@ -14,6 +14,7 @@ const styles=StyleSheet.create({
         flex:1,
     },
     contentWrap:{
+        marginTop:-70,
         width:'70%',
         backgroundColor:'white',
         borderWidth:2,

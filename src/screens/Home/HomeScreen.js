@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { setData } from '../../store/shop/products';
 import App from '../../API/firebaseConfig';
 import PushNotificationManager from '../../../PushNotificationManager';
-
+import { setCategories } from '../../store/shop/categories';
 
 const mapStateToProps=(state)=>{
   return {
@@ -18,7 +18,7 @@ const mapStateToProps=(state)=>{
   }
 }
 
-export default connect(mapStateToProps, {setData})(class HomeScreen extends React.Component {
+export default connect(mapStateToProps, {setData, setCategories})(class HomeScreen extends React.Component {
 
   static navigationOptions = ({ navigation }) => ({
     title: 'Home',
@@ -42,6 +42,7 @@ export default connect(mapStateToProps, {setData})(class HomeScreen extends Reac
   componentDidMount(){
 
     this.props.setData();
+    this.props.setCategories();
     //setAutoId('products')
   }
   
@@ -65,9 +66,9 @@ export default connect(mapStateToProps, {setData})(class HomeScreen extends Reac
 
   render() {
     return (
-      // <PushNotificationManager navigation={this.props.navigation}>
-      //         {
-      //           data =>
+      <PushNotificationManager navigation={this.props.navigation}>
+              {
+                data =>
       <View>
         <FlatList
           vertical
@@ -78,8 +79,8 @@ export default connect(mapStateToProps, {setData})(class HomeScreen extends Reac
           keyExtractor={item => `${item.recipeId}`}
         />
       </View>
-  // }
-  // </PushNotificationManager>
+  }
+  </PushNotificationManager>
     );
   }
 })

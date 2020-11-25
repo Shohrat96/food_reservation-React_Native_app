@@ -20,7 +20,7 @@ const PhotoPickModal=(props)=>{
       };
       
       const pickImage = async (mode) => {
-        const {ratio}=props || [1,1]
+        const ratio=props.ratio || [1,1]
         selectPhoto();
         let result;
         if (mode === 'select'){

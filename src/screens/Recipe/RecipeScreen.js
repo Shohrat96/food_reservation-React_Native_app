@@ -16,8 +16,7 @@ import BackButton from '../../components/BackButton/BackButton';
 import ViewIngredientsButton from '../../components/ViewIngredientsButton/ViewIngredientsButton';
 import PlaceOrderButton from '../../components/PlaceOrderButton/PlaceOrder';
 import OrderFormModal from '../../components/orderFormModal/OrderFormModal';
-import IngredientsDetailsScreen from '../IngredientsDetails/IngredientsDetailsScreen';
-import OrdersScreen from '../Orders/OrdersScreen'
+
 
 import App from '../../API/firebaseConfig';
 import * as Permissions from 'expo-permissions'
@@ -255,7 +254,7 @@ export default class RecipeScreen extends React.Component {
           </View>
 
           <View style={styles.infoContainer}>
-            <Image style={styles.infoPhoto} source={require('../../../assets/icons/time.png')} />
+            <Image style={styles.infoPhoto} source={require('../../../assets/icons/price.png')} />
             <Text style={styles.infoRecipe}>{item.price} AZN</Text>
           </View>
 
@@ -274,7 +273,7 @@ export default class RecipeScreen extends React.Component {
             <Text style={styles.ingredientsTitle}>Tərkibi</Text>
             <View style={styles.infoDescriptionRecipe}>
               {
-                this.ingredientss.map((item,key)=>{
+                item.ingredients.map((item,key)=>{
                   return (
                     <View key={item.id} style={styles.singleIngredient}>
                       <Text style={{color:'white', fontWeight:'bold'}}>{item.name}</Text>

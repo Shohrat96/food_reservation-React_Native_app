@@ -7,18 +7,21 @@ import { AsyncStorage } from 'react-native';
 import store, { persistor } from "./src/store";
 import { NavigationContainer } from '@react-navigation/native';
 
+
+AsyncStorage.clear();
 export default class App extends Component {
 
   render() {
+    AsyncStorage.clear();
 
     return (
       //<AppContainer />
       <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
+        {/* <PersistGate loading={null} persistor={persistor}> */}
           <NavigationContainer>
               <AppContainer />
           </NavigationContainer>
-        </PersistGate>
+        {/* </PersistGate> */}
       </Provider>
       /*<View style={{marginTop:50}}>
         <Button title='allow notification'/>
@@ -28,3 +31,4 @@ export default class App extends Component {
 
 }
 
+AsyncStorage.clear();

@@ -56,23 +56,23 @@ const OrderFormModal=(props)=>{
                         <View style={styles.inputsContainer}>
                             <View style={styles.nameInput}>
                                 <Text>Ad</Text>
-                                <CustomeTextInput value={fields} textContentType='givenName' onChangeText={(value)=>onChangeInputHandler('name',value)}  />
+                                <CustomeTextInput value={fields.name} textContentType='givenName' onChangeText={(value)=>onChangeInputHandler('name',value)}  />
                             </View>
                             <View style={styles.surnameInput}>
                                 <Text>Soyad</Text>
-                                <CustomeTextInput onChangeText={(value)=>onChangeInputHandler('surname',value)}/>
+                                <CustomeTextInput value={fields.surname} onChangeText={(value)=>onChangeInputHandler('surname',value)}/>
                             </View>
                             <View style={styles.number}>
                                 <Text>Mobil Nömrə</Text>
-                                <CustomeTextInput placeholder='0501234567' keyboardType='numeric' onChangeText={(value)=>onChangeInputHandler('number',value)}/>
+                                <CustomeTextInput value={fields.number} placeholder='0501234567' keyboardType='numeric' onChangeText={(value)=>onChangeInputHandler('number',value)}/>
                             </View>
                             <View style={styles.amount}>
                                 <Text>Neçə Ədəd</Text>
-                                <CustomeTextInput keyboardType='numeric' onChangeText={(value)=>onChangeInputHandler('countFood',value)}/>
+                                <CustomeTextInput value={fields.countFood} keyboardType='numeric' onChangeText={(value)=>onChangeInputHandler('countFood',value)}/>
                             </View>
                             <View style={styles.amount}>
                                 <Text>Neçə Nəfər</Text>
-                                <CustomeTextInput keyboardType='numeric' onChangeText={(value)=>onChangeInputHandler('countPerson',value)}/>
+                                <CustomeTextInput value={fields.countPerson} keyboardType='numeric' onChangeText={(value)=>onChangeInputHandler('countPerson',value)}/>
                             </View>
                             <View style={styles.dateAndTime}>
                                     <TouchableOpacity style={{alignItems:'center'}} onPress={()=>{setShowDatePicker(true); setCurrentMood('date')}}>
