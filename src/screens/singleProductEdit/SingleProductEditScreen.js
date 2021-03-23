@@ -278,7 +278,7 @@ const SingleProductEditScreen= connect(mapStateToProps, mapDispatchToProps)((pro
                     justifyContent:'center',
                     alignItems:'center'
                     }}>
-                        <Text style={{color:'white',fontSize:20,fontWeight:'bold'}}>X</Text>
+                        <Text style={{color:'white',fontSize:20,fontWeight:'bold'}}>Y</Text>
                     </TouchableOpacity>
                 </ImageBackground>
             </TouchableOpacity>
@@ -317,7 +317,8 @@ const SingleProductEditScreen= connect(mapStateToProps, mapDispatchToProps)((pro
                     items={categoryArr(convertObToArr(props.categories))}
                     onValueChange={(value)=>changeStateHandler('categoryId',value)}
                     value={productProperties.categoryId}
-                    placeholder={{}}
+                    placeholder={"TEST"}
+                    style={{marginBottom:10}}
                 />
 
                 {

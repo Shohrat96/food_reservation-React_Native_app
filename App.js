@@ -1,34 +1,25 @@
-import React, { useState, useEffect, Component } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, Alert } from 'react-native';
-import { AppContainer } from './src/navigations/AppNavigation';
+import React, { useState, useEffect, Component } from "react";
+import { StyleSheet, Text, View, TextInput, Button, Alert } from "react-native";
+import { AppContainer } from "./src/navigations/AppNavigation";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage } from "react-native";
 import store, { persistor } from "./src/store";
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer } from "@react-navigation/native";
 
-
-AsyncStorage.clear();
 export default class App extends Component {
-
   render() {
-    AsyncStorage.clear();
-
     return (
-      //<AppContainer />
       <Provider store={store}>
-        {/* <PersistGate loading={null} persistor={persistor}> */}
-          <NavigationContainer>
-              <AppContainer />
-          </NavigationContainer>
-        {/* </PersistGate> */}
+        <PersistGate loading={null} persistor={persistor}>
+        <NavigationContainer>
+          <AppContainer />
+        </NavigationContainer>
+        </PersistGate>
       </Provider>
       /*<View style={{marginTop:50}}>
         <Button title='allow notification'/>
       </View>*/
-    )
+    );
   }
-
 }
-
-AsyncStorage.clear();

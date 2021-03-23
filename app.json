@@ -2,7 +2,7 @@
   "expo": {
     "name": "Instafood",
     "slug": "instafood-products-app",
-    "description": "React Native Recipes App Demo. Download source code for free at https://www.instamobile.io . You can also check out the Swift version at https://www.iosapptemplates.com and the Kotlin version at https://www.instakotlin.com .",
+    "description": "React Native Food Order App",
     "privacy": "public",
     "sdkVersion": "39.0.0",
     "platforms": [
