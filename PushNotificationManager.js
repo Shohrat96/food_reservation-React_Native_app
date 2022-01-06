@@ -49,7 +49,7 @@ import App from './src/API/firebaseConfig';
     return <>{children({token:token})}</>
 }
 // this function register listen to notifications
-async function registerForPushNotificationsAsync() {
+export async function registerForPushNotificationsAsync() {
   let token;
   if (Constants.isDevice) {
     const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);

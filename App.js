@@ -10,12 +10,13 @@ import { NavigationContainer } from "@react-navigation/native";
 export default class App extends Component {
   render() {
     return (
+      //<AppContainer />
       <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
+        {/* <PersistGate loading={null} persistor={persistor}> */}
         <NavigationContainer>
           <AppContainer />
         </NavigationContainer>
-        </PersistGate>
+        {/* </PersistGate> */}
       </Provider>
       /*<View style={{marginTop:50}}>
         <Button title='allow notification'/>

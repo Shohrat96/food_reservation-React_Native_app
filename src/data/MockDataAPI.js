@@ -94,7 +94,7 @@ export function getNumberOfRecipes(categoryId) {
   return count;
 }
 
-/*export function getAllIngredients(idArray) {
+export function getAllIngredients(idArray) {
   const ingredientsArray = [];
   idArray.map(index => {
     ingredients.map(data => {
@@ -104,7 +104,7 @@ export function getNumberOfRecipes(categoryId) {
     });
   });
   return ingredientsArray;
-}*/
+}
 
 // functions for search
 /*export function getRecipesByIngredientName(ingredientName) {
