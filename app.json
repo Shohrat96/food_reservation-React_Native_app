@@ -4,7 +4,6 @@
     "slug": "instafood-products-app",
     "description": "React Native Food Order App",
     "privacy": "public",
-    "sdkVersion": "39.0.0",
     "platforms": [
       "ios",
       "android",
